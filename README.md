@@ -6,10 +6,12 @@ Description
 This cookbook will deploy gitlab; a free project and repository management
 application.
 
-Code hosted on github [here](https://github.com/gitlabhq/gitlabhq/tree/stable).
+Code of gitlab is hosted on github [here](https://github.com/gitlabhq/gitlabhq/tree/stable).
 
 This cookbook was developed on RHEL/CentOS 6.  Other platforms may need re-worked,
 please open an issue or send a pull request to either, atomic-penguin or jackl0phty, on github.
+
+Please clone this cookbook into 'cookbooks/gitlab' or 'site-cookbooks/gitlab'.
 
 Requirements
 ============
@@ -164,7 +166,7 @@ License and Author
 Author: Gerald L. Hevener Jr., M.S.
 Copyright: 2012
 
-Author: Eric G. Wolfe 
+Author: Eric G. Wolfe
 Copyright: 2012
 
 Gitlolite Author: David Ruan
