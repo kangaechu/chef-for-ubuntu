@@ -26,7 +26,14 @@ template "/etc/sudoers" do
 end
 
 execute "complete install script" do
-  command "curl https://raw.github.com/gitlabhq/gitlab-recipes/master/install/debian_ubuntu_aws.sh | sh"
+  command "curl https://raw.github.com/gitlabhq/gitlab-recipes/gitlabdotcom/install/debian_ubuntu_aws.sh | sh"
+end
+
+template "/home/gitlab/gitlab/config/database.yml" do
+  source "database.yml.erb"
+  mode 0644
+  owner "gitlab"
+  group "gitlab"
 end
 
 # # Include cookbook dependencies
