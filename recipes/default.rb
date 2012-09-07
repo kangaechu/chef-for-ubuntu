@@ -34,6 +34,9 @@ template "/home/gitlab/gitlab/config/database.yml" do
   mode 0644
   owner "gitlab"
   group "gitlab"
+  variables(
+    :database => data_bag_item('services', 'gitlab')['database'],
+  )
 end
 
 # # Include cookbook dependencies
