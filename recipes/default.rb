@@ -26,7 +26,7 @@ template "/etc/sudoers" do
 end
 
 execute "complete install script" do
-  command "curl https://raw.github.com/gitlabhq/gitlab-recipes/gitlabdotcom/install/debian_ubuntu_aws.sh | sh"
+  command "curl https://raw.github.com/dosire/gitlab-recipes/gitlabdotcom/install/debian_ubuntu_aws.sh | sh"
 end
 
 template "/home/gitlab/gitlab/config/database.yml" do
