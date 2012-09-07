@@ -6,7 +6,7 @@ production:
   encoding: utf8
   reconnect: false
   pool: 5
-  host: <%= @database.host %>
-  username: <%= @database.user %>
-  password: <%= @database.password %>
-  database:  <%= @database.database %>
+  host: <%= @database["host"] %>
+  username: <%= @database["user"] %>
+  password: <%= @database["password"] %>
+  database:  <%= @database["database"] %>
