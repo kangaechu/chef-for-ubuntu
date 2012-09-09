@@ -28,8 +28,8 @@ end
 # Render gitlab config file
 # template "#{node['gitlab']['app_home']}/config/gitlab.yml" do
 template "/home/ubuntu/gitlab.yml" do # Move it later in the script.
-  owner node['gitlab']['user']
-  group node['gitlab']['group']
+  owner 'ubuntu' # owner node['gitlab']['user']
+  group 'ubuntu' # node['gitlab']['group']
   mode 0644
   variables(
     :fqdn => node['fqdn'],
