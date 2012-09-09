@@ -25,8 +25,15 @@ template "/etc/sudoers" do
   group "root"
 end
 
-execute "complete install script" do
-  command "curl https://raw.github.com/dosire/gitlab-recipes/gitlabdotcom/install/debian_ubuntu_aws.sh | sh"
+template "/home/ubuntu/install_script.sh" do
+  source "install_script.sh"
+  mode 0755
+  owner "ubuntu"
+  group "ubuntu"
+end
+
+execute "run install script" do
+  command "cat /home/ubuntu/install_script.sh | sh"
 end
 
 template "/home/gitlab/gitlab/config/database.yml" do
