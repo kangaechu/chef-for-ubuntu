@@ -25,6 +25,20 @@ template "/etc/sudoers" do
   group "root"
 end
 
+# Render gitlab config file
+# template "#{node['gitlab']['app_home']}/config/gitlab.yml" do
+template "/home/ubuntu/gitlab.yml" do # Move it later in the script.
+  owner node['gitlab']['user']
+  group node['gitlab']['group']
+  mode 0644
+  variables(
+    :fqdn => node['fqdn'],
+    :https_boolean => node['gitlab']['https'], # Default: false
+    :git_user => node['gitlab']['git_user'], # Default: git
+    :git_home => node['gitlab']['git_home'] # Default: /home/git
+  )
+end
+
 template "/home/ubuntu/install_script.sh" do
   source "install_script.sh"
   mode 0755
@@ -207,19 +221,6 @@ end
 #   group node['gitlab']['group']
 #   mode "0755"
 #   action :create
-# end
-
-# # Render gitlab config file
-# template "#{node['gitlab']['app_home']}/config/gitlab.yml" do
-#   owner node['gitlab']['user']
-#   group node['gitlab']['group']
-#   mode 0644
-#   variables(
-#     :fqdn => node['fqdn'],
-#     :https_boolean => node['gitlab']['https'],
-#     :git_user => node['gitlab']['git_user'],
-#     :git_home => node['gitlab']['git_home']
-#   )
 # end
 
 # # Link sqlite example config file to database.yml

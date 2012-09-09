@@ -23,7 +23,7 @@ default['gitlab']['git_user'] = "git"
 default['gitlab']['git_group'] = "git"
 
 # Set git home directory
-default['gitlab']['git_home'] = "/var/git"
+default['gitlab']['git_home'] = "/home/git"
 
 # Set gitolite home directory
 default['gitlab']['gitolite_home'] = "#{node['gitlab']['git_home']}/gitolite"

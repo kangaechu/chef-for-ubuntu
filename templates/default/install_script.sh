@@ -1,6 +1,7 @@
 #!/bin/sh
 # First and second part based on respectively:
-#
+# https://github.com/gitlabhq/gitlab-recipes/blob/master/install/debian_ubuntu.sh ebf8bd031e4b3283b9967d7816b06994fa04a0b2
+# https://github.com/gitlabhq/gitlab-recipes/blob/master/install/debian_ubuntu_aws.sh 8d8385f7e13ac1175bad2e5221d462353b67cb6c
 
 ### EBS commands ###
 
@@ -68,7 +69,9 @@ sudo pip install pygments
 sudo gem install bundler
 sudo su -l gitlab -c "git clone git://github.com/gitlabhq/gitlabhq.git gitlab" # Using master everywhere.
 sudo su -l gitlab -c "cd gitlab && mkdir tmp"
-sudo su -l gitlab -c "cd gitlab/config && cp gitlab.yml.example gitlab.yml"
+
+sudo su -l gitlab -c "mv /home/ubuntu/gitlab.yml /home/gitlab/gitlab/config/gitlab.yml"
+
 # sudo su -l gitlab -c "cd gitlab/config && cp database.yml.example database.yml"
 # sudo sed -i 's/"secure password"/"'$userPassword'"/' /home/gitlab/gitlab/config/database.yml # Insert the mysql root password.
 sudo su -l gitlab -c "cd gitlab && bundle install --without development test --deployment"
