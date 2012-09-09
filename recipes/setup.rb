@@ -22,4 +22,3 @@ end
 execute "start service" do
   command "sudo service gitlab start"
 end
-
