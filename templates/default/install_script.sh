@@ -70,7 +70,7 @@ sudo gem install bundler
 sudo su -l gitlab -c "git clone git://github.com/gitlabhq/gitlabhq.git gitlab" # Using master everywhere.
 sudo su -l gitlab -c "cd gitlab && mkdir tmp"
 
-sudo su -l gitlab -c "mv /home/ubuntu/gitlab.yml /home/gitlab/gitlab/config/gitlab.yml"
+sudo mv /home/ubuntu/gitlab.yml /home/gitlab/gitlab/config/gitlab.yml
 sudo chmod 644 /home/gitlab/gitlab/config/gitlab.yml
 sudo chown gitlab:gitlab /home/gitlab/gitlab/config/gitlab.yml
 
