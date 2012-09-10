@@ -19,12 +19,6 @@ execute "seed db" do
   command "bundle exec rake db:seed_fu RAILS_ENV=production"
 end
 
-execute "start service" do
-  user "gitlab"
-  group "gitlab"
-  command "service gitlab start"
-end
-
 execute "run status" do
   cwd "/home/gitlab/gitlab"
   command "sudo bundle exec rake gitlab:app:status RAILS_ENV=production"

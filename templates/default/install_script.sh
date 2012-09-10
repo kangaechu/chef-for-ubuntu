@@ -115,8 +115,5 @@ sudo -u gitlab cp /home/gitlab/gitlab/config/unicorn.rb.orig /home/gitlab/gitlab
 sudo wget https://raw.github.com/gitlabhq/gitlab-recipes/master/init.d/gitlab -P /etc/init.d/
 sudo chmod +x /etc/init.d/gitlab && sudo update-rc.d gitlab defaults
 
-# Start nginx
-sudo service nginx restart
-
 # Go to gitlab directory by default on next login.
 echo 'cd /home/gitlab/gitlab' >> /home/ubuntu/.bashrc
