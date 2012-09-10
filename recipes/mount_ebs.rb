@@ -4,8 +4,8 @@ aws = data_bag_item("services", "gitlab")["aws"]
 # https://github.com/opscode/cookbooks/tree/master/aws/#ebs_volumerb
 
 aws_ebs_volume "ebs_volume_new" do
-  aws_access_key aws['aws_access_key_id']
-  aws_secret_access_key aws['aws_secret_access_key']
+  aws_access_key aws['access_key_id']
+  aws_secret_access_key aws['secret_access_key']
   size 50 # GB
   device "/dev/sdi" # Shows up as something different.
   description "repos-and-attachments"
