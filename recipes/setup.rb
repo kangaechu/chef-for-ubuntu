@@ -22,3 +22,8 @@ end
 execute "start service" do
   command "sudo service gitlab start"
 end
+
+execute "run status" do
+  cwd "/home/gitlab/gitlab"
+  command "sudo bundle exec rake gitlab:app:status RAILS_ENV=production"
+end
