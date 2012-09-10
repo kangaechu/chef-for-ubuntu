@@ -7,7 +7,7 @@ aws_ebs_volume "ebs_volume_new" do
   aws_access_key aws['access_key_id']
   aws_secret_access_key aws['secret_access_key']
   size 50 # GB
-  device "/dev/sdi" # Shows up as something different.
+  device "/dev/sdi" # Shows up with s replaced by xv
   description "repos-and-attachments"
   action [ :create, :attach ]
 end
@@ -36,5 +36,5 @@ directory "/mnt/ebs" do
 end
 
 execute "mount EBS drive, use printf to prevent newline" do
-  command "mount `cat /etc/fstab | grep /mnt | awk '{printf $1}'` /mnt/ebs"
+  command "mount /dev/xvdi /mnt/ebs"
 end
