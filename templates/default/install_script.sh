@@ -1,11 +1,5 @@
 #!/bin/sh
 
-### EBS commands ###
-
-# Mount EBS and create directories
-sudo mkdir -p /mnt/ebs
-sudo mount /dev/xvdf /mnt/ebs
-
 ### Prevent fingerprint prompt for localhost ###
 
 echo "Host localhost
@@ -33,25 +27,23 @@ sudo adduser --disabled-login --gecos 'gitlab system' gitlab
 
 sudo usermod -a -G git gitlab
 
-# EBS for repositories (git user needs to exist)
-sudo mkdir -p /mnt/ebs/repositories # Create a directory if it doesn't exist.
-sudo ln -s /mnt/ebs/repositories /home/git/repositories
+### EBS commands ###
 
-# Permissions on the link
+# Mount EBS
+sudo mkdir -p /mnt/ebs
+sudo mount /dev/xvdf /mnt/ebs
+
+# Symlink EBS repositories (need to do before gitolite setup)
+sudo ln -s /mnt/ebs/repositories /home/git/repositories
 sudo chmod -R 770 /home/git/repositories
 sudo chown -R git:git /home/git/repositories
 
-# Permissions on the repos
-sudo chmod -R 770 /mnt/ebs/repositories
-sudo chown -R git:git /mnt/ebs/repositories
-
-# Symlink back for gitolite
+# Symlink back from EBS for gitolite TODO maybe remove
 sudo ln -s /home/git/.gitolite.rc /mnt/ebs/.gitolite.rc
-
-# Permissions on the link back
 sudo chmod -R 770 /mnt/ebs/.gitolite.rc
 sudo chown -R git:git /mnt/ebs/.gitolite.rc
 
+# uploads are later in the script, first need to clone gitlab repo
 
 ### Generate ssh key for gitlab to access gitolite
 
@@ -89,11 +81,10 @@ sudo gem install bundler
 sudo su -l gitlab -c "git clone git://github.com/gitlabhq/gitlabhq.git gitlab" # Using master everywhere.
 sudo su -l gitlab -c "cd gitlab && mkdir tmp"
 
-# EBS for uploads (gitlab needs to be cloned)
-sudo mkdir -p /mnt/ebs/uploads # Create directory if it doesn't exist.
+# Symlink EBS uploads, gitlab needs to be cloned
 sudo ln -s /mnt/ebs/uploads /home/gitlab/gitlab/public/uploads
-sudo chown -R gitlab:gitlab /mnt/ebs/uploads
-sudo chmod -R 755 /mnt/ebs/uploads
+sudo chown -R gitlab:gitlab /home/gitlab/gitlab/public/uploads
+sudo chmod -R 755 /home/gitlab/gitlab/public/uploads
 
 # Copy in Gitlab config
 sudo mv /home/ubuntu/gitlab.yml /home/gitlab/gitlab/config/gitlab.yml
