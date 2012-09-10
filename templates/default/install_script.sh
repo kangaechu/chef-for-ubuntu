@@ -41,7 +41,10 @@ sudo usermod -a -G git gitlab
 
 # EBS for repositories (git user needs to exist)
 sudo mkdir -p /mnt/ebs/repositories # Create a directory if it doesn't exist.
-sudo chmod -R 770 /mnt/ebs/repositories
+sudo ln -s /mnt/ebs/repositories /home/git/repositories
+sudo chmod -R 777 /home/git/repositories # TODO reduce this
+sudo chown -R git:git /home/git/repositories
+sudo chmod -R 777 /mnt/ebs/repositories # TODO reduce this
 sudo chown -R git:git /mnt/ebs/repositories
 
 ### Generate ssh key for gitlab to access gitolite
