@@ -79,29 +79,29 @@ sudo chmod 777 -R /home/gitlab
 # Install Gitlab gems
 sudo su -l gitlab -c "cd gitlab && bundle install --without development test --deployment"
 
-# Setup gitlab hooks
-sudo cp /home/gitlab/gitlab/lib/hooks/post-receive /home/git/share/gitolite/hooks/common/post-receive
-sudo chown git:git /home/git/share/gitolite/hooks/common/post-receive
+# # Setup gitlab hooks
+# sudo cp /home/gitlab/gitlab/lib/hooks/post-receive /home/git/share/gitolite/hooks/common/post-receive
+# sudo chown git:git /home/git/share/gitolite/hooks/common/post-receive
 
-# Tighten gitolite permissions
-sudo -u git chmod 750 /home/git/gitolite
+# # Tighten gitolite permissions
+# sudo -u git chmod 750 /home/git/gitolite
 
-# Tighten gitlab config permissions
-sudo -u gitlab chmod 660 /home/gitlab/gitlab/config/*.yml
+# # Tighten gitlab config permissions
+# sudo -u gitlab chmod 660 /home/gitlab/gitlab/config/*.yml
 
-# Install and configure Nginx
-sudo apt-get install -y nginx
-sudo wget https://raw.github.com/gitlabhq/gitlab-recipes/master/nginx/gitlab -P /etc/nginx/sites-available/
-sudo ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab
-sudo sed -i 's/YOUR_SERVER_IP/'`wget -qO- http://instance-data/latest/meta-data/local-ipv4`'/' /etc/nginx/sites-available/gitlab # Set private ip address (public won't work).
-sudo sed -i 's/YOUR_SERVER_FQDN/'`wget -qO- http://instance-data/latest/meta-data/public-hostname`'/' /etc/nginx/sites-available/gitlab # Set public dns domain name.
+# # Install and configure Nginx
+# sudo apt-get install -y nginx
+# sudo wget https://raw.github.com/gitlabhq/gitlab-recipes/master/nginx/gitlab -P /etc/nginx/sites-available/
+# sudo ln -s /etc/nginx/sites-available/gitlab /etc/nginx/sites-enabled/gitlab
+# sudo sed -i 's/YOUR_SERVER_IP/'`wget -qO- http://instance-data/latest/meta-data/local-ipv4`'/' /etc/nginx/sites-available/gitlab # Set private ip address (public won't work).
+# sudo sed -i 's/YOUR_SERVER_FQDN/'`wget -qO- http://instance-data/latest/meta-data/public-hostname`'/' /etc/nginx/sites-available/gitlab # Set public dns domain name.
 
-# Configure Unicorn
-sudo -u gitlab cp /home/gitlab/gitlab/config/unicorn.rb.orig /home/gitlab/gitlab/config/unicorn.rb
+# # Configure Unicorn
+# sudo -u gitlab cp /home/gitlab/gitlab/config/unicorn.rb.orig /home/gitlab/gitlab/config/unicorn.rb
 
-# Create a Gitlab service
-sudo wget https://raw.github.com/gitlabhq/gitlab-recipes/master/init.d/gitlab -P /etc/init.d/
-sudo chmod +x /etc/init.d/gitlab && sudo update-rc.d gitlab defaults
+# # Create a Gitlab service
+# sudo wget https://raw.github.com/gitlabhq/gitlab-recipes/master/init.d/gitlab -P /etc/init.d/
+# sudo chmod +x /etc/init.d/gitlab && sudo update-rc.d gitlab defaults
 
-# Go to gitlab directory by default on next login.
-echo 'cd /home/gitlab/gitlab' >> /home/ubuntu/.bashrc
+# # Go to gitlab directory by default on next login.
+# echo 'cd /home/gitlab/gitlab' >> /home/ubuntu/.bashrc
