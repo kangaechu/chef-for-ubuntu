@@ -8,5 +8,5 @@ directory "/mnt/ebs" do
 end
 
 execute "mount EBS drive" do
-  command "mount /dev/xvdf /mnt/ebs"
+  command "mount `cat /etc/fstab | grep /mnt | awk '{print $1}'` /mnt/ebs"
 end
