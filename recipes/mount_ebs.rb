@@ -12,6 +12,10 @@ aws_ebs_volume "ebs_volume_new" do
   action [ :create, :attach ]
 end
 
+execute "format EBS drive" do
+  command "mkfs.ext4 /dev/xvdi"
+end
+
 # aws_ebs_volume "ebs_volume_from_snapshot" do
 #   aws_access_key aws['aws_access_key_id']
 #   aws_secret_access_key aws['aws_secret_access_key']
@@ -35,6 +39,6 @@ directory "/mnt/ebs" do
   recursive true
 end
 
-execute "mount EBS drive, use printf to prevent newline" do
-  command "mount /dev/xvdi /mnt/ebs"
+execute "mount EBS drive" do
+  command "mount --types ext4 /dev/xvdi /mnt/ebs"
 end
