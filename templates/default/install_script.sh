@@ -72,10 +72,6 @@ sudo mv /home/ubuntu/gitlab.yml /home/gitlab/gitlab/config/gitlab.yml
 sudo chmod 644 /home/gitlab/gitlab/config/gitlab.yml
 sudo chown gitlab:gitlab /home/gitlab/gitlab/config/gitlab.yml
 
-# Bundler seems to fail without this and the debian ruby version.
-# sudo chmod 775 -R /home/gitlab/gitlab doesn't work
-sudo chmod 777 -R /home/gitlab
-
 # Install Gitlab gems, somethings fails due to network so try two times.
 sudo su -l gitlab -c "cd gitlab && bundle install --without development test --deployment"
 sudo su -l gitlab -c "cd gitlab && bundle install --without development test --deployment"
