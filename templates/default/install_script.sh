@@ -38,10 +38,10 @@ sudo ln -s /mnt/ebs/repositories /home/git/repositories
 sudo chmod -R 770 /home/git/repositories
 sudo chown -R git:git /home/git/repositories
 
-# Symlink back from EBS for gitolite TODO maybe remove
-# sudo ln -s /home/git/.gitolite.rc /mnt/ebs/.gitolite.rc
-# sudo chmod -R 770 /mnt/ebs/.gitolite.rc
-# sudo chown -R git:git /mnt/ebs/.gitolite.rc
+# Symlink back from EBS (need when status checks 'UMASK for .gitolite.rc' with relative path)
+sudo ln -s /home/git/.gitolite.rc /mnt/ebs/.gitolite.rc
+sudo chmod -R 770 /mnt/ebs/.gitolite.rc
+sudo chown -R git:git /mnt/ebs/.gitolite.rc
 
 # uploads are later in the script, first need to clone gitlab repo
 
