@@ -7,6 +7,6 @@ directory "/mnt/ebs" do
   recursive true
 end
 
-execute "mount EBS drive" do
-  command "mount `cat /etc/fstab | grep /mnt | awk '{print $1}'` /mnt/ebs"
+execute "mount EBS drive, use printf to prevent newline" do
+  command "mount `cat /etc/fstab | grep /mnt | awk '{printf $1}'` /mnt/ebs"
 end
