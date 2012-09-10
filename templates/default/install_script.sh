@@ -6,12 +6,6 @@
 sudo mkdir -p /mnt/ebs
 sudo mount /dev/xvdf /mnt/ebs
 
-# EBS for uploads
-sudo mkdir -p /mnt/ebs/uploads # Create directory if it doesn't exist.
-sudo ln -s /mnt/ebs/uploads /home/gitlab/gitlab/public/uploads
-sudo chown -R gitlab:gitlab /mnt/ebs/uploads
-sudo chmod -R 755 /mnt/ebs/uploads
-
 ### Prevent fingerprint prompt for localhost ###
 
 echo "Host localhost
@@ -44,24 +38,20 @@ sudo mkdir -p /mnt/ebs/repositories # Create a directory if it doesn't exist.
 sudo ln -s /mnt/ebs/repositories /home/git/repositories
 
 # Permissions on the link
-sudo chmod -R 777 /home/git/repositories # TODO reduce this
+sudo chmod -R 770 /home/git/repositories
 sudo chown -R git:git /home/git/repositories
 
 # Permissions on the repos
-sudo chmod -R 777 /mnt/ebs/repositories # TODO reduce this
+sudo chmod -R 770 /mnt/ebs/repositories
 sudo chown -R git:git /mnt/ebs/repositories
 
 # Symlink back for gitolite
 sudo ln -s /home/git/.gitolite.rc /mnt/ebs/.gitolite.rc
 
 # Permissions on the link back
-sudo chmod -R 777 /mnt/ebs/.gitolite.rc # TODO reduce this
+sudo chmod -R 770 /mnt/ebs/.gitolite.rc
 sudo chown -R git:git /mnt/ebs/.gitolite.rc
 
-# Symlink back for projects.list TODO try to remove this
-sudo ln -s /home/git/projects.list /mnt/ebs/projects.list
-sudo chmod -R 777 /mnt/ebs/projects.list
-sudo chown -R git:git /mnt/ebs/projects.list
 
 ### Generate ssh key for gitlab to access gitolite
 
@@ -86,14 +76,6 @@ sudo -u git -H sed -i 's/0077/0007/g' /home/git/share/gitolite/conf/example.gito
 # Gitolite setup with ssh key
 sudo -u git -H sh -c "PATH=/home/git/bin:$PATH; gl-setup -q /home/git/gitlab.pub"
 
-# Permissions on the link after gl-setup TODO try to remove this
-sudo chmod -R 777 /home/git/repositories
-sudo chown -R git:git /home/git/repositories
-
-# Permissions on the repos after gl-setup TODO try to remove this
-sudo chmod -R 777 /mnt/ebs/repositories
-sudo chown -R git:git /mnt/ebs/repositories
-
 # Test by cloning a repo
 sudo -u gitlab -H git clone git@localhost:gitolite-admin.git /tmp/gitolite-admin
 sudo rm -rf /tmp/gitolite-admin
@@ -106,6 +88,12 @@ sudo gem install bundler
 # Gitlab clone
 sudo su -l gitlab -c "git clone git://github.com/gitlabhq/gitlabhq.git gitlab" # Using master everywhere.
 sudo su -l gitlab -c "cd gitlab && mkdir tmp"
+
+# EBS for uploads (gitlab needs to be cloned)
+sudo mkdir -p /mnt/ebs/uploads # Create directory if it doesn't exist.
+sudo ln -s /mnt/ebs/uploads /home/gitlab/gitlab/public/uploads
+sudo chown -R gitlab:gitlab /mnt/ebs/uploads
+sudo chmod -R 755 /mnt/ebs/uploads
 
 # Copy in Gitlab config
 sudo mv /home/ubuntu/gitlab.yml /home/gitlab/gitlab/config/gitlab.yml
