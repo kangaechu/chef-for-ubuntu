@@ -20,7 +20,9 @@ execute "seed db" do
 end
 
 execute "start service" do
-  command "sudo service gitlab start"
+  user "gitlab"
+  group "gitlab"
+  command "service gitlab start"
 end
 
 execute "run status" do
