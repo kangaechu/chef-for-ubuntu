@@ -86,12 +86,12 @@ sudo -u git -H sed -i 's/0077/0007/g' /home/git/share/gitolite/conf/example.gito
 # Gitolite setup with ssh key
 sudo -u git -H sh -c "PATH=/home/git/bin:$PATH; gl-setup -q /home/git/gitlab.pub"
 
-# Permissions on the link after gl-setup
-sudo chmod -R 777 /home/git/repositories # TODO reduce this
+# Permissions on the link after gl-setup TODO try to remove this
+sudo chmod -R 777 /home/git/repositories
 sudo chown -R git:git /home/git/repositories
 
-# Permissions on the repos after gl-setup
-sudo chmod -R 777 /mnt/ebs/repositories # TODO reduce this
+# Permissions on the repos after gl-setup TODO try to remove this
+sudo chmod -R 777 /mnt/ebs/repositories
 sudo chown -R git:git /mnt/ebs/repositories
 
 # Test by cloning a repo

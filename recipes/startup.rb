@@ -3,7 +3,7 @@ execute "start nginx" do
 end
 
 execute "start gitlab" do
-  user "gitlab"
-  group "gitlab"
+  # user "gitlab"
+  # group "gitlab"
   command "service gitlab start"
 end
