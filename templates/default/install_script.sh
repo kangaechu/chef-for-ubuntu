@@ -58,6 +58,11 @@ sudo ln -s /home/git/.gitolite.rc /mnt/ebs/.gitolite.rc
 sudo chmod -R 777 /mnt/ebs/.gitolite.rc # TODO reduce this
 sudo chown -R git:git /mnt/ebs/.gitolite.rc
 
+# Symlink back for projects.list
+sudo ln -s /home/git/projects.list /mnt/ebs/projects.list
+sudo chmod -R 777 /mnt/ebs/projects.list # TODO reduce this
+sudo chown -R git:git /mnt/ebs/projects.list
+
 ### Generate ssh key for gitlab to access gitolite
 
 sudo -H -u gitlab ssh-keygen -q -N '' -t rsa -f /home/gitlab/.ssh/id_rsa
