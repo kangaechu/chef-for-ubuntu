@@ -1,3 +1,7 @@
+execute "remove if already mounted" do
+  command "umount /mnt"
+end
+
 # Mount point for EBS
 directory "/mnt/ebs" do
   mode "0755"
