@@ -39,9 +39,9 @@ sudo chmod -R 770 /home/git/repositories
 sudo chown -R git:git /home/git/repositories
 
 # Symlink back from EBS for gitolite TODO maybe remove
-sudo ln -s /home/git/.gitolite.rc /mnt/ebs/.gitolite.rc
-sudo chmod -R 770 /mnt/ebs/.gitolite.rc
-sudo chown -R git:git /mnt/ebs/.gitolite.rc
+# sudo ln -s /home/git/.gitolite.rc /mnt/ebs/.gitolite.rc
+# sudo chmod -R 770 /mnt/ebs/.gitolite.rc
+# sudo chown -R git:git /mnt/ebs/.gitolite.rc
 
 # uploads are later in the script, first need to clone gitlab repo
 
