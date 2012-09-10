@@ -76,6 +76,7 @@ sudo chown gitlab:gitlab /home/gitlab/gitlab/config/gitlab.yml
 # sudo chmod 775 -R /home/gitlab/gitlab doesn't work
 sudo chmod 777 -R /home/gitlab
 
+printenv
 # Install Gitlab gems
 # sudo su -l gitlab -c "cd gitlab && bundle install --without development test --deployment"
 
