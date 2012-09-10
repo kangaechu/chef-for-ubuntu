@@ -14,9 +14,9 @@ run_list(
   "recipe[gitlab::setup_ebs]",
   # - Create recipe symlink (first install only, otherwise different place)
   "recipe[gitlab]",
-  "recipe[gitlab::setup_db]", # first install only
+  "recipe[gitlab::setup_db]"# , # first install only
   # - Create recipe symlink (later install only, otherwise different place)
-  "recipe[gitlab::startup]"
+  #{ }"recipe[gitlab::startup]"
 )
 default_attributes({
   # All in databag
