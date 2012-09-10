@@ -30,7 +30,7 @@ app:
 # Git Hosting congiguration
 git_host:
   admin_uri: <%= @git_user %>@localhost:gitolite-admin
-  base_path: /mnt/ebs/repositories
+  base_path: /home/git/repositories
   # hooks_path: /home/git/share/gitolite/hooks/ # only needed when gitolite is not installed according the manual
   host: <%= @fqdn %>
   git_user: <%= @git_user %>
