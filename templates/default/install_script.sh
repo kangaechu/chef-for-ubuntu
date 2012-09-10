@@ -12,26 +12,7 @@ sudo apt-get update
 
 sudo apt-get install -y git git-core wget curl gcc checkinstall libxml2-dev libxslt-dev sqlite3 libsqlite3-dev libcurl4-openssl-dev libreadline-gplv2-dev libc6-dev libssl-dev libmysql++-dev make build-essential zlib1g-dev libicu-dev redis-server openssh-server python-dev python-pip libyaml-dev
 
-### Create git user ###
-
-sudo adduser \
-  --system \
-  --shell /bin/sh \
-  --gecos 'git version control' \
-  --group \
-  --disabled-password \
-  --home /home/git \
-  git
-
-sudo adduser --disabled-login --gecos 'gitlab system' gitlab
-
-sudo usermod -a -G git gitlab
-
 ### EBS commands ###
-
-# Mount EBS
-sudo mkdir -p /mnt/ebs
-sudo mount /dev/xvdf /mnt/ebs
 
 # Symlink EBS repositories (need to do before gitolite setup)
 sudo ln -s /mnt/ebs/repositories /home/git/repositories
