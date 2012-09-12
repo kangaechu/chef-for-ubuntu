@@ -9,13 +9,11 @@
 name "gitlab"
 description "Base role for this cookbook"
 run_list(
-  "recipe[gitlab::create_users]", # needed to setup ebs ownership
-  "recipe[gitlab::mount_ebs]",
-  "recipe[gitlab::setup_ebs]",
-  # - Create recipe symlink (first install only, otherwise different place)
+  "recipe[gitlab::create_users]", # need users for setup_ebs ownership
+  "recipe[gitlab::mount_ebs]", # always mount, can trow away on swap
+  "recipe[gitlab::setup_ebs]", # always setup, can trow away on swap
   "recipe[gitlab]",
   "recipe[gitlab::setup_db]", # first install only
-  # - Create recipe symlink (later install only, otherwise different place)
   "recipe[gitlab::startup]"
 )
 default_attributes({
