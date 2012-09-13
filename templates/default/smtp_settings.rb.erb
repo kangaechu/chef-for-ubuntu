@@ -1,0 +1,9 @@
+ActionMailer::Base.smtp_settings = {
+  :address => "<%= @address -%>",
+  :port => <%= @port -%>,
+  :user_name => "<%= @user_name -%>",
+  :password => "<%= @password -%>",
+  :domain => "<%= @domain -%>",
+  :authentication => :login,
+  :enable_starttls_auto => true
+}
