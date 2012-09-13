@@ -12,24 +12,6 @@ sudo apt-get update
 
 sudo apt-get install -y git git-core wget curl gcc checkinstall libxml2-dev libxslt-dev sqlite3 libsqlite3-dev libcurl4-openssl-dev libreadline-gplv2-dev libc6-dev libssl-dev libmysql++-dev make build-essential zlib1g-dev libicu-dev redis-server openssh-server python-dev python-pip libyaml-dev
 
-### EBS commands ###
-
-# Symlink EBS repositories (need to do before gitolite setup)
-sudo ln -s /mnt/ebs/repositories /home/git/repositories
-sudo chmod -R 770 /home/git/repositories
-sudo chown -R git:git /home/git/repositories
-
-# Symlink back from EBS (need when status checks 'UMASK for .gitolite.rc' with relative path)
-sudo ln -s /home/git/.gitolite.rc /mnt/ebs/.gitolite.rc
-sudo chmod -R 770 /mnt/ebs/.gitolite.rc
-sudo chown -R git:git /mnt/ebs/.gitolite.rc
-
-# uploads are later in the script, first need to clone gitlab repo
-
-### Generate ssh key for gitlab to access gitolite
-
-sudo -H -u gitlab ssh-keygen -q -N '' -t rsa -f /home/gitlab/.ssh/id_rsa
-
 ### Install gitolite ####
 
 # Clone repo
@@ -41,10 +23,6 @@ cd /home/git
 sudo -u git -H mkdir bin
 sudo -u git sh -c 'echo -e "PATH=\$PATH:/home/git/bin\nexport PATH" >> /home/git/.profile'
 sudo -u git sh -c 'gitolite/install -ln /home/git/bin'
-
-# Copy gitlab ssh key because git needs to access it
-sudo cp /home/gitlab/.ssh/id_rsa.pub /home/git/gitlab.pub
-sudo chmod 0444 /home/git/gitlab.pub
 
 # Gitolite setup with ssh key
 sudo -u git -H sh -c "PATH=/home/git/bin:$PATH; gitolite setup -pk /home/git/gitlab.pub"

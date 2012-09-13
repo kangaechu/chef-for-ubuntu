@@ -39,6 +39,8 @@ directory "/mnt/ebs" do
   recursive true
 end
 
-execute "mount EBS drive" do
-  command "mount --types ext4 /dev/xvdi /mnt/ebs"
+# mount --types ext4 /dev/xvdi /mnt/ebs
+mount "/mnt/ebs" do
+  device "/dev/xvdi"
+  fstype "ext4"
 end
