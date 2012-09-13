@@ -37,15 +37,11 @@ end
 # repositories symlink (need to do before gitolite setup)
 link "/home/git/repositories" do
   to "/mnt/ebs/repositories"
-  owner "git"
-  group "git"
 end
 
 # .gitolite.rc symlink back from EBS (need when status checks 'UMASK for .gitolite.rc' with relative path)
 link "/mnt/ebs/.gitolite.rc" do
   to "/home/git/.gitolite.rc"
-  owner "git"
-  group "git"
 end
 
 # uploads symlink are later (in the script), first need to clone gitlab repo
@@ -53,8 +49,6 @@ end
 # ssh symlink
 link "/home/gitlab/.ssh" do
   to "/mnt/ebs/dotssh"
-  owner "gitlab"
-  group "gitlab"
 end
 
 execute "generate ssh key for gitlab to access gitolite" do
@@ -64,13 +58,9 @@ end
 # second symlink for gitolite setup, permissions should already be 0644
 link "/home/git/gitlab.pub" do
   to "/mnt/ebs/dotssh/gitlab.pub"
-  owner "gitlab"
-  group "gitlab"
 end
 
 # gitolite symlink
 link "/home/git/.gitolite" do
   to "/mnt/ebs/dotgitolite"
-  owner "git"
-  group "git"
 end
