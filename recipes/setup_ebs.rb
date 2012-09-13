@@ -36,7 +36,7 @@ end
 
 # repositories symlink (need to do before gitolite setup)
 link "/home/git/repositories" do
-  to "/mnt/ebs/repositories "
+  to "/mnt/ebs/repositories"
   owner "git"
   group "git"
 end
