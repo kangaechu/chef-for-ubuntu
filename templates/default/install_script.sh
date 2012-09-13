@@ -34,20 +34,23 @@ sudo -H -u gitlab ssh-keygen -q -N '' -t rsa -f /home/gitlab/.ssh/id_rsa
 
 # Clone repo
 cd /home/git
-sudo -H -u git git clone git://github.com/gitlabhq/gitolite /home/git/gitolite
+sudo -H -u git git clone -b gl-v304 https://github.com/gitlabhq/gitolite.git /home/git/gitolite
 
 # Gitolite system install
-sudo -u git -H sh -c "PATH=/home/git/bin:$PATH; /home/git/gitolite/src/gl-system-install"
+cd /home/git
+sudo -u git -H mkdir bin
+sudo -u git sh -c 'echo -e "PATH=\$PATH:/home/git/bin\nexport PATH" >> /home/git/.profile'
+sudo -u git sh -c 'gitolite/install -ln /home/git/bin'
 
-# Copy gitlab ssh key
+# Copy gitlab ssh key because git needs to access it
 sudo cp /home/gitlab/.ssh/id_rsa.pub /home/git/gitlab.pub
-sudo chmod 777 /home/git/gitlab.pub
-
-# Adapt gitolite.rc mask
-sudo -u git -H sed -i 's/0077/0007/g' /home/git/share/gitolite/conf/example.gitolite.rc
+sudo chmod 0444 /home/git/gitlab.pub
 
 # Gitolite setup with ssh key
-sudo -u git -H sh -c "PATH=/home/git/bin:$PATH; gl-setup -q /home/git/gitlab.pub"
+sudo -u git -H sh -c "PATH=/home/git/bin:$PATH; gitolite setup -pk /home/git/gitlab.pub"
+
+# Adapt gitolite.rc mask
+sudo -u git -H sed -i 's/0077/0007/g' /home/git/.gitolite.rc
 
 # Test by cloning a repo
 sudo -u gitlab -H git clone git@localhost:gitolite-admin.git /tmp/gitolite-admin
@@ -77,8 +80,8 @@ sudo su -l gitlab -c "cd gitlab && bundle install --without development test --d
 sudo su -l gitlab -c "cd gitlab && bundle install --without development test --deployment"
 
 # Setup gitlab hooks
-sudo cp /home/gitlab/gitlab/lib/hooks/post-receive /home/git/share/gitolite/hooks/common/post-receive
-sudo chown git:git /home/git/share/gitolite/hooks/common/post-receive
+sudo cp /home/gitlab/gitlab/lib/hooks/post-receive /home/git/.gitolite/hooks/common/post-receive
+sudo chown git:git /home/git/.gitolite/hooks/common/post-receive
 
 # Tighten gitolite permissions
 sudo -u git chmod 750 /home/git/gitolite
