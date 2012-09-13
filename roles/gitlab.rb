@@ -14,7 +14,7 @@ run_list(
   "recipe[gitlab::mount_ebs]", # always mount, can trow away on swap
   "recipe[gitlab::setup_ebs]", # always setup, can trow away on swap
   "recipe[gitlab]",
-  # "recipe[gitlab::setup_db]", # first install only
+  "recipe[gitlab::setup_db]", # first install only
   "recipe[gitlab::startup]"
 )
 default_attributes({
