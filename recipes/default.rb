@@ -40,7 +40,7 @@ template "/home/ubuntu/gitlab.yml" do # Move it later in the script.
 end
 
 template "/home/ubuntu/install_script.sh" do
-  source "install_script.sh"
+  source "install_script.sh.erb"
   mode 0755
   owner "ubuntu"
   group "ubuntu"
