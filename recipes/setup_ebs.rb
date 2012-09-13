@@ -18,7 +18,7 @@ end
 
 # ssh dir
 directory "/mnt/ebs/dotssh" do
-  mode "0744"
+  mode "0755"
   owner "gitlab"
   group "gitlab"
   action :create
