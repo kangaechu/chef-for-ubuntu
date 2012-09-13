@@ -25,8 +25,8 @@ directory "/mnt/ebs/dotssh" do
   recursive true
 end
 
-# gitolite dir
-directory "/mnt/ebs/dotgitolite" do
+# gitolite dir (take change to already create logs subdir)
+directory "/mnt/ebs/dotgitolite/logs" do
   mode "0755"
   owner "git"
   group "git"
@@ -56,8 +56,9 @@ execute "generate ssh key for gitlab to access gitolite" do
 end
 
 # second symlink for gitolite setup, permissions should already be 0644
+# TODO remove this symlink and run setup with normal key
 link "/home/git/gitlab.pub" do
-  to "/mnt/ebs/dotssh/gitlab.pub"
+  to "/mnt/ebs/dotssh/id_rsa.pub"
 end
 
 # gitolite symlink
