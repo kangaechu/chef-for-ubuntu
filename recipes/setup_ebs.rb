@@ -25,15 +25,6 @@ directory "/mnt/ebs/dotssh" do
   recursive true
 end
 
-# gitolite dir (take change to already create logs subdir)
-directory "/mnt/ebs/dotgitolite/logs" do
-  mode "0755"
-  owner "git"
-  group "git"
-  action :create
-  recursive true
-end
-
 # repositories symlink (need to do before gitolite setup)
 link "/home/git/repositories" do
   to "/mnt/ebs/repositories"
@@ -59,9 +50,4 @@ end
 # TODO remove this symlink and run setup with normal key
 link "/home/git/gitlab.pub" do
   to "/mnt/ebs/dotssh/id_rsa.pub"
-end
-
-# gitolite symlink
-link "/home/git/.gitolite" do
-  to "/mnt/ebs/dotgitolite"
 end
