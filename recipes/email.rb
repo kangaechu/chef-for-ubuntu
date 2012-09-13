@@ -10,6 +10,9 @@ template "/home/gitlab/gitlab/config/initializers/smtp_settings.rb" do
   mode 0664
   owner "gitlab"
   group "gitlab"
+  variables(
+    :email => data_bag_item('services', 'gitlab')['email'],
+  )
 end
 
 execute "change rails production config from sendmail to smtp" do
