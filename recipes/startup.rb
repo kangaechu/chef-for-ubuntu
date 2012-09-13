@@ -1,7 +1,7 @@
-execute "start nginx" do
-  command "sudo service nginx restart"
+service "nginx" do
+  action :restart
 end
 
-execute "start gitlab" do # TODO Better to start as gitlab user but no repo visibility.
-  command "service gitlab start"
+service "gitlab" do
+  action :start
 end
