@@ -7,6 +7,12 @@ upstream gitlab {
 }
 
 server {
+  listen 80;
+  server_name gitlab.com;
+  rewrite return 301 https://gitlab.com$request_uri;
+}
+
+server {
   listen <%= @ssl["port"] %>;
   server_name gitlab.com;
   root /home/gitlab/gitlab/public;
