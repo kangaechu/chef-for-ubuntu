@@ -17,6 +17,8 @@ server {
   server_name gitlab.com;
   root /home/gitlab/gitlab/public;
 
+  client_max_body_size 10M;
+
   ssl <%= @ssl["status"] %>;
   ssl_certificate_key /etc/ssl/gitlab.com.key;
   ssl_certificate /etc/ssl/gitlab.com.crt;
