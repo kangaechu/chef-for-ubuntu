@@ -6,7 +6,7 @@ aws = data_bag_item("services", "gitlab")["aws"]
 aws_ebs_volume "ebs_volume_new" do
   aws_access_key aws['access_key_id']
   aws_secret_access_key aws['secret_access_key']
-  size 50 # GB
+  size 200 # GB
   device "/dev/sdi" # Shows up with s replaced by xv
   description "repos-and-attachments"
   action [ :create, :attach ]
