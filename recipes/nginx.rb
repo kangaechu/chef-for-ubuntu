@@ -3,15 +3,17 @@ package "nginx" do
   action :install
 end
 
+ssl_data_bag = data_bag_item('services', 'gitlab')["ssl"]
+
 file "/etc/ssl/gitlab.com.key" do
-  content data_bag_item('services', 'gitlab')["certificate_key"]
+  content ssl_data_bag["certificate_key"]
   owner "root"
   group "root"
   mode 0600
 end
 
 file "/etc/ssl/gitlab.com.crt" do
-  content data_bag_item('services', 'gitlab')["certificate_chained"]
+  content ssl_data_bag["certificate_chained"]
   owner "root"
   group "root"
   mode 0600
@@ -23,7 +25,7 @@ template "/etc/nginx/sites-available/gitlab" do
   owner "root"
   group "root"
   variables(
-    :ssl => data_bag_item('services', 'gitlab')['ssl'],
+    :ssl => ssl_data_bag,
   )
 end
 
