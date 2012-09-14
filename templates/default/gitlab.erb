@@ -7,9 +7,13 @@ upstream gitlab {
 }
 
 server {
-  listen <%= @listen_port -%>;
+  listen <%= @ssl["port"] %>;
   server_name gitlab.com;
   root /home/gitlab/gitlab/public;
+
+  ssl <%= @ssl["status"] %>;
+  ssl_certificate_key /etc/ssl/gitlab.com.key;
+  ssl_certificate /etc/ssl/gitlab.com.crt;
 
   # individual nginx logs for this gitlab vhost
   access_log  /var/log/nginx/gitlab_access.log;
