@@ -9,7 +9,6 @@ template "/etc/nginx/sites-available/gitlab" do
   owner "root"
   group "root"
   variables(
-    :listen_ip => `wget -qO- http://instance-data/latest/meta-data/local-ipv4`.chomp,
     :listen_port => 80
   )
 end
