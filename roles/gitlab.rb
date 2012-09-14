@@ -16,7 +16,7 @@ run_list(
   "recipe[gitlab]",
   "recipe[gitlab::nginx]",
   "recipe[gitlab::email]",
-  # "recipe[gitlab::setup_db]", # first install only
+  "recipe[gitlab::setup_db]", # first install only
   "recipe[gitlab::startup]"
 )
 default_attributes({
