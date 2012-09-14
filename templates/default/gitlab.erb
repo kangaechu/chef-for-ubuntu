@@ -7,7 +7,7 @@ upstream gitlab {
 }
 
 server {
-  listen <%= listen_ip -%>:<%= listen_port -%>;
+  listen <%= @listen_ip -%>:<%= @listen_port -%>;
   server_name gitlab.com;
   root /home/gitlab/gitlab/public;
 
