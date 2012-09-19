@@ -33,7 +33,7 @@ template "/home/ubuntu/gitlab.yml" do # Move it later in the script.
   mode 0644
   variables(
     :fqdn => data_bag_item('services', 'gitlab')['fqdn'],
-    :https_boolean => node['gitlab']['https'], # Default: false
+    :https_boolean => ('on' == data_bag_item('services', 'gitlab')['ssl']['status']),
     :git_user => node['gitlab']['git_user'], # Default: git
     :git_home => node['gitlab']['git_home'] # Default: /home/git
   )
