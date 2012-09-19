@@ -5,14 +5,16 @@ end
 
 ssl_data_bag = data_bag_item('services', 'gitlab')["ssl"]
 
-file "/etc/ssl/gitlab.com.key" do
+fqdn = data_bag_item('services', 'gitlab')['fqdn']
+
+file "/etc/ssl/#{fqdn}.key" do
   content ssl_data_bag["certificate_key"]
   owner "root"
   group "root"
   mode 0600
 end
 
-file "/etc/ssl/gitlab.com.crt" do
+file "/etc/ssl/#{fqdn}.crt" do
   content ssl_data_bag["certificate_chained"]
   owner "root"
   group "root"
@@ -25,6 +27,7 @@ template "/etc/nginx/sites-available/gitlab" do
   owner "root"
   group "root"
   variables(
+    :fqdn => fqdn,
     :ssl => ssl_data_bag,
   )
 end

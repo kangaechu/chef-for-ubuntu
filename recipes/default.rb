@@ -32,7 +32,7 @@ template "/home/ubuntu/gitlab.yml" do # Move it later in the script.
   group 'ubuntu' # node['gitlab']['group']
   mode 0644
   variables(
-    :fqdn => "gitlab.com", # node['fqdn'] node['ec2']['public_hostname']
+    :fqdn => data_bag_item('services', 'gitlab')['fqdn'],
     :https_boolean => node['gitlab']['https'], # Default: false
     :git_user => node['gitlab']['git_user'], # Default: git
     :git_home => node['gitlab']['git_home'] # Default: /home/git

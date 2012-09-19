@@ -9,22 +9,22 @@ upstream gitlab {
 <% if 'on' == @ssl["status"] %>
 server {
   listen 80;
-  server_name gitlab.com;
-  return 301 https://gitlab.com$request_uri;
+  server_name <%= @fqdn -%>;
+  return 301 https://<%= @fqdn -%>$request_uri;
 }
 <% end %>
 
 server {
   listen <%= @ssl["port"] %>;
-  server_name gitlab.com;
+  server_name <%= @fqdn -%>;
   root /home/gitlab/gitlab/public;
 
   client_max_body_size 10M;
 
   ssl <%= @ssl["status"] %>;
 <% if 'on' == @ssl["status"] %>
-  ssl_certificate_key /etc/ssl/gitlab.com.key;
-  ssl_certificate /etc/ssl/gitlab.com.crt;
+  ssl_certificate_key /etc/ssl/<%= @fqdn -%>.key;
+  ssl_certificate /etc/ssl/<%= @fqdn -%>.crt;
 <% end %>
 
   # individual nginx logs for this gitlab vhost
