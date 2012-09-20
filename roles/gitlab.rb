@@ -5,7 +5,6 @@
 
 # TODO put database.yml in shared and symlink to it
 # TODO convert install script to chef commands
-# TODO create nginx config from template
 
 name "gitlab"
 description "Base role for this cookbook"
