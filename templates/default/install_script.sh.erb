@@ -72,7 +72,7 @@ sudo -u git chmod 750 /home/git/gitolite
 sudo -u gitlab chmod 660 /home/gitlab/gitlab/config/*.yml
 
 # Configure Unicorn
-sudo -u gitlab cp /home/gitlab/gitlab/config/unicorn.rb.orig /home/gitlab/gitlab/config/unicorn.rb
+sudo -u gitlab cp /home/gitlab/gitlab/config/unicorn.rb.example /home/gitlab/gitlab/config/unicorn.rb
 
 # Create a Gitlab service
 sudo wget https://raw.github.com/gitlabhq/gitlab-recipes/master/init.d/gitlab -P /etc/init.d/
