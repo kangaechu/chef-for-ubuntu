@@ -16,9 +16,8 @@ run_list(
   "recipe[gitlab]",
   "recipe[gitlab::nginx]",
   "recipe[gitlab::email]",
-  # "recipe[gitlab::setup_db]", # first install only
   "recipe[gitlab::startup]"
-)
+) # "recipe[gitlab::setup_db]", # is in server.rb
 default_attributes({
   # All in databag
 })
