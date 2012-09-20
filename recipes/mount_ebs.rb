@@ -1,12 +1,13 @@
 include_recipe "aws"
 aws = data_bag_item("services", "gitlab")["aws"]
+ebs = data_bag_item("services", "gitlab")["ebs"]
 
 # https://github.com/opscode/cookbooks/tree/master/aws/#ebs_volumerb
 
 aws_ebs_volume "ebs_volume_new" do
   aws_access_key aws['access_key_id']
   aws_secret_access_key aws['secret_access_key']
-  size 200 # GB
+  size ebs['size'] # GB
   device "/dev/sdi" # Shows up with s replaced by xv
   description "repos-and-attachments"
   action [ :create, :attach ]
