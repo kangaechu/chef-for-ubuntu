@@ -48,7 +48,7 @@ end
 
 execute "run install script" do
   command "cat /home/ubuntu/install_script.sh | sh"
-  not_if "ls /home/git/gitolite"
+not_if "ls /home/git/gitolite"
 end
 
 template "/home/gitlab/gitlab/config/database.yml" do
