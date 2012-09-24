@@ -15,7 +15,7 @@ end
 
 execute "format EBS drive" do
   command("mkfs.ext4 /dev/xvdi")
-  not_if {File.exists?("/mnt/ebs")}
+  not_if "ls /mnt/ebs"
 end
 
 # Mount point for EBS
