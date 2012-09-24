@@ -14,7 +14,7 @@ aws_ebs_volume "ebs_volume_new" do
 end
 
 execute "format EBS drive" do
-  command "mkfs.ext4 /dev/xvdi"
+  command("mkfs.ext4 /dev/xvdi")
   not_if {File.exists?("/mnt/ebs")}
 end
 
