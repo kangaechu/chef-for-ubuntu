@@ -44,6 +44,7 @@ end
 
 execute "generate ssh key for gitlab to access gitolite" do
   command "sudo -H -u gitlab ssh-keygen -q -N '' -t rsa -f /home/gitlab/.ssh/id_rsa"
+not_if {File.exists?("/home/gitlab/.ssh/id_rsa")}
 end
 
 # second symlink for gitolite setup, permissions should already be 0644
