@@ -1,3 +1,74 @@
+### Install gitolite ####
+
+execute "clone repo"
+  user "git"
+  group "git"
+  cwd "/home/git"
+  command "git clone -b gl-v304 https://github.com/gitlabhq/gitolite.git /home/git/gitolite"
+end
+
+directory "/home/git/bin" do
+  owner "git"
+  group "git"
+  mode "0755"
+  action :create
+end
+
+execute "add git bin to path"
+  user "git"
+  group "git"
+  command "echo -e "PATH=\$PATH:/home/git/bin\nexport PATH" >> /home/git/.profile"
+end
+
+execute "run install"
+  user "git"
+  group "git"
+  cwd "/home/git"
+  command "gitolite/install -ln /home/git/bin"
+end
+
+execute "setup with ssh key"
+  user "git"
+  group "git"
+  cwd "/home/git"
+  command "PATH=/home/git/bin:$PATH; gitolite setup -pk /home/git/gitlab.pub"
+end
+
+execute "adapt gitolite.rc umask"
+  user "git"
+  group "git"
+  cwd "/home/git"
+  command "sed -i 's/0077/0007/g' /home/git/.gitolite.rc"
+end
+execute "move to ebs, first need to do install since script chokes on existing symlink"
+  user "git"
+  group "git"
+  cwd "/home/git"
+  command "mv /home/git/.gitolite /mnt/ebs/dotgitolite"
+end
+
+execute "link back from ebs"
+  user "git"
+  group "git"
+  cwd "/home/git"
+  command "ln -s /mnt/ebs/dotgitolite /home/git/.gitolite"
+end
+
+execute "test by cloning a repo"
+  user "gitlab"
+  group "git"
+  cwd "/home/git"
+  command "git clone git@localhost:gitolite-admin.git /tmp/gitolite-admin"
+end
+
+execute "remove the cloned repo"
+  user "git"
+  group "git"
+  cwd "/home/git"
+  command "sudo rm -rf /tmp/gitolite-admin"
+end
+
+
 #
 # Cookbook Name:: gitolite
 # Recipe:: default

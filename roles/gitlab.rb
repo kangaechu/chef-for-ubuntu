@@ -12,6 +12,7 @@ run_list(
   "recipe[gitlab::create_users]", # need users for setup_ebs ownership
   "recipe[gitlab::mount_ebs]", # always mount, can trow away on swap
   "recipe[gitlab::setup_ebs]", # always setup, can trow away on swap
+  "recipe[gitlab::gitolite]",
   "recipe[gitlab]",
   "recipe[gitlab::nginx]",
   "recipe[gitlab::email]",
