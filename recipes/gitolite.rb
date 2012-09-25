@@ -52,6 +52,7 @@ end
 
 execute "move to ebs, do after install since that script chokes on an existing symlink" do
   command "mv /home/git/.gitolite /mnt/ebs/dotgitolite"
+not_if { File.exists?("/mnt/ebs/dotgitolite") }
 end
 
 link "/home/git/.gitolite" do
