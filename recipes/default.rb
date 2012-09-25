@@ -75,6 +75,21 @@ gem_package "charlock_holmes" do
   action :install
 end
 
+git '/home/gitlab/gitlab' do
+  repository 'git://github.com/dosire/gitlabhq.git'
+  reference 'gitlabdotcom'
+  action :checkout
+  user gitlab
+  group gitlab
+end
+
+directory "/home/gitlab/gitlab/tmp" do
+  owner "gitlab"
+  group "gitlab"
+  mode "0755"
+  action :create
+end
+
 execute "run install script" do
   command "cat /home/ubuntu/install_script.sh | sh"
 not_if {File.exists?("/home/git/gitolite")}

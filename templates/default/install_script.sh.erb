@@ -1,9 +1,5 @@
 #!/bin/sh
 
-# Gitlab clone
-sudo su -l gitlab -c "git clone git://github.com/gitlabhq/gitlabhq.git gitlab" # Using master everywhere.
-sudo su -l gitlab -c "cd gitlab && mkdir tmp"
-
 # Symlink EBS uploads, gitlab needs to be cloned
 sudo ln -s /mnt/ebs/uploads /home/gitlab/gitlab/public/uploads
 sudo chown -R gitlab:gitlab /home/gitlab/gitlab/public/uploads
