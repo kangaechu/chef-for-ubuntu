@@ -1,5 +1,12 @@
 ### Install gitolite ####
 
+execute "prevent fingerprint prompt for localhost" do
+  command "echo 'Host localhost
+   StrictHostKeyChecking no
+   UserKnownHostsFile=/dev/null' | sudo tee -a /etc/ssh/ssh_config"
+not_if "grep 'StrictHostKeyChecking no' /etc/ssh/ssh_config"
+end
+
 directory "/home/git/bin" do
   owner "git"
   group "git"
