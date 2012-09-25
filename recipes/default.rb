@@ -62,6 +62,19 @@ end
   package pkg
 end
 
+python_pip "pygments" do
+  action :install
+end
+
+gem_package "bundler" do
+  action :install
+end
+
+gem_package "charlock_holmes" do
+  version "0.6.8"
+  action :install
+end
+
 execute "run install script" do
   command "cat /home/ubuntu/install_script.sh | sh"
 not_if {File.exists?("/home/git/gitolite")}
@@ -116,18 +129,6 @@ end
 
 # # Install sshkey gem into chef
 # chef_gem "sshkey" do
-#   action :install
-# end
-
-# # Install required Ruby Gems for Gitlab
-# %w{ charlock_holmes bundler }.each do |gempkg|
-#   gem_package gempkg do
-#     action :install
-#   end
-# end
-
-# # Install pygments from pip
-# python_pip "pygments" do
 #   action :install
 # end
 
