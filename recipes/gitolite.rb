@@ -48,8 +48,6 @@ end
 
 link "/home/git/.gitolite" do
   to "/mnt/ebs/dotgitolite"
-  owner 'git'
-  group 'git'
 end
 
 execute "test by cloning a repo" do
