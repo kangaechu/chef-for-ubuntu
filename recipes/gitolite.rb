@@ -17,7 +17,7 @@ end
 execute "add git bin to path" do
   user "git"
   group "git"
-  command "echo -e "PATH=\$PATH:/home/git/bin\nexport PATH" >> /home/git/.profile"
+  command "echo -e 'export PATH=$PATH:/home/git/bin' >> /home/git/.profile"
 end
 
 execute "run install" do
