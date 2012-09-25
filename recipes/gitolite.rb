@@ -14,11 +14,12 @@ directory "/home/git/bin" do
   action :create
 end
 
-execute "clone repo" do
-  user "git"
-  group "git"
-  cwd "/home/git"
-  command "git clone -b gl-v304 https://github.com/gitlabhq/gitolite.git /home/git/gitolite"
+git '/home/git/gitolite' do
+  repository 'https://github.com/gitlabhq/gitolite.git'
+  reference 'gl-v304'
+  action :checkout
+  user 'git'
+  group 'git'
 end
 
 execute "add git bin to path" do
