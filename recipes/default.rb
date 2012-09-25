@@ -57,8 +57,8 @@ git '/home/gitlab/gitlab' do
   repository 'git://github.com/dosire/gitlabhq.git'
   reference 'gitlabdotcom'
   action :checkout
-  user gitlab
-  group gitlab
+  user 'gitlab'
+  group 'gitlab'
 end
 
 directory "/home/gitlab/gitlab/tmp" do
