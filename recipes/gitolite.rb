@@ -1,6 +1,6 @@
 ### Install gitolite ####
 
-execute "clone repo"
+execute "clone repo" do
   user "git"
   group "git"
   cwd "/home/git"
@@ -14,60 +14,60 @@ directory "/home/git/bin" do
   action :create
 end
 
-execute "add git bin to path"
+execute "add git bin to path" do
   user "git"
   group "git"
   command "echo -e "PATH=\$PATH:/home/git/bin\nexport PATH" >> /home/git/.profile"
 end
 
-execute "run install"
+execute "run install" do
   user "git"
   group "git"
   cwd "/home/git"
   command "gitolite/install -ln /home/git/bin"
 end
 
-execute "setup with ssh key"
+execute "setup with ssh key" do
   user "git"
   group "git"
   cwd "/home/git"
   command "PATH=/home/git/bin:$PATH; gitolite setup -pk /home/git/gitlab.pub"
 end
 
-execute "adapt gitolite.rc umask"
+execute "adapt gitolite.rc umask" do
   user "git"
   group "git"
   cwd "/home/git"
   command "sed -i 's/0077/0007/g' /home/git/.gitolite.rc"
 end
-execute "move to ebs, first need to do install since script chokes on existing symlink"
+
+execute "move to ebs, first need to do install since script chokes on existing symlink" do
   user "git"
   group "git"
   cwd "/home/git"
   command "mv /home/git/.gitolite /mnt/ebs/dotgitolite"
 end
 
-execute "link back from ebs"
+execute "link back from ebs" do
   user "git"
   group "git"
   cwd "/home/git"
   command "ln -s /mnt/ebs/dotgitolite /home/git/.gitolite"
 end
 
-execute "test by cloning a repo"
+execute "test by cloning a repo" do
   user "gitlab"
   group "git"
   cwd "/home/git"
   command "git clone git@localhost:gitolite-admin.git /tmp/gitolite-admin"
 end
 
-execute "remove the cloned repo"
+execute "remove the cloned repo" do
   user "git"
   group "git"
   cwd "/home/git"
   command "sudo rm -rf /tmp/gitolite-admin"
 end
-
 
 #
 # Cookbook Name:: gitolite
