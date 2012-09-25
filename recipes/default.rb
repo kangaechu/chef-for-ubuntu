@@ -25,27 +25,6 @@ template "/etc/sudoers" do
   group "root"
 end
 
-# Render gitlab config file
-# template "#{node['gitlab']['app_home']}/config/gitlab.yml" do
-template "/home/ubuntu/gitlab.yml" do # Move it later in the script.
-  owner 'ubuntu' # owner node['gitlab']['user']
-  group 'ubuntu' # node['gitlab']['group']
-  mode 0644
-  variables(
-    :fqdn => data_bag_item('services', 'gitlab')['fqdn'],
-    :https_boolean => ('on' == data_bag_item('services', 'gitlab')['ssl']['status']),
-    :git_user => node['gitlab']['git_user'], # Default: git
-    :git_home => node['gitlab']['git_home'] # Default: /home/git
-  )
-end
-
-template "/home/ubuntu/install_script.sh" do
-  source "install_script.sh.erb"
-  mode 0755
-  owner "ubuntu"
-  group "ubuntu"
-end
-
 git '/home/gitlab/gitlab' do
   repository 'git://github.com/dosire/gitlabhq.git'
   reference 'gitlabdotcom'
@@ -61,9 +40,49 @@ directory "/home/gitlab/gitlab/tmp" do
   action :create
 end
 
-execute "run install script" do
-  command "cat /home/ubuntu/install_script.sh | sh"
-not_if {File.exists?("/home/git/gitolite")}
+template "/home/gitlab/gitlab/config/gitlab.yml" do
+  owner 'gitlab' # owner node['gitlab']['user']
+  group 'gitlab' # node['gitlab']['group']
+  mode 0644
+  variables(
+    :fqdn => data_bag_item('services', 'gitlab')['fqdn'],
+    :https_boolean => ('on' == data_bag_item('services', 'gitlab')['ssl']['status']),
+    :git_user => node['gitlab']['git_user'], # Default: git
+    :git_home => node['gitlab']['git_home'] # Default: /home/git
+  )
+end
+
+execute "install gems" do
+  cwd "/home/gitlab/gitlab"
+  command "bundle install --without development test --deployment"
+  user "gitlab"
+  group "gitlab"
+end
+
+execute "setup gitlab hooks" do
+ command "cp /home/gitlab/gitlab/lib/hooks/post-receive /home/git/.gitolite/hooks/common/post-receive"
+end
+
+execute "make git the owner of the hooks" do
+  command "chown git:git /home/git/.gitolite/hooks/common/post-receive"
+end
+
+execute "tighten gitolite permissions" do
+  user "git"
+  group "git"
+  execute "chmod 750 /home/git/gitolite"
+end
+
+execute "tighten gitlab config permissions" do
+  user "gitlab"
+  group "gitlab"
+  command "chmod 660 /home/gitlab/gitlab/config/*.yml"
+end
+
+execute "configure Unicorn" do
+  user 'gitlab'
+  group 'gitlab'
+  command "cp /home/gitlab/gitlab/config/unicorn.rb.example /home/gitlab/gitlab/config/unicorn.rb"
 end
 
 cookbook_file "/etc/init.d/gitlab" do
