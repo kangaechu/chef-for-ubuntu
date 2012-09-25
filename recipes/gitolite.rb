@@ -64,11 +64,9 @@ execute "test by cloning a repo" do
   command "git clone git@localhost:gitolite-admin.git /tmp/gitolite-admin"
 end
 
-execute "remove the cloned repo" do
-  user "git"
-  group "git"
-  cwd "/home/git"
-  command "sudo rm -rf /tmp/gitolite-admin"
+directory "/tmp/gitolite-admin" do
+  recursive true
+  action :delete
 end
 
 #
