@@ -1,17 +1,17 @@
 ### Install gitolite ####
 
-execute "clone repo" do
-  user "git"
-  group "git"
-  cwd "/home/git"
-  command "git clone -b gl-v304 https://github.com/gitlabhq/gitolite.git /home/git/gitolite"
-end
-
 directory "/home/git/bin" do
   owner "git"
   group "git"
   mode "0755"
   action :create
+end
+
+execute "clone repo" do
+  user "git"
+  group "git"
+  cwd "/home/git"
+  command "git clone -b gl-v304 https://github.com/gitlabhq/gitolite.git /home/git/gitolite"
 end
 
 execute "add git bin to path" do
