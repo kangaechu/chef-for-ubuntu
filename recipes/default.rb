@@ -66,6 +66,22 @@ execute "run install script" do
 not_if {File.exists?("/home/git/gitolite")}
 end
 
+cookbook_file "/etc/init.d/gitlab" do
+  source "gitlab_init"
+  mode 0755
+  owner "root"
+  group "root"
+end
+
+service "gitlab" do
+  supports :start => true, :stop => true, :restart => true, :reload => true
+  action :enable
+end
+
+execute "go to gitlab directory by default on next login" do
+  command "echo 'cd /home/gitlab/gitlab' >> /home/ubuntu/.bashrc"
+end
+
 template "/home/gitlab/gitlab/config/database.yml" do
   source "database.yml.erb"
   mode 0644

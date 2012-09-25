@@ -26,10 +26,3 @@ sudo -u gitlab chmod 660 /home/gitlab/gitlab/config/*.yml
 
 # Configure Unicorn
 sudo -u gitlab cp /home/gitlab/gitlab/config/unicorn.rb.example /home/gitlab/gitlab/config/unicorn.rb
-
-# Create a Gitlab service
-sudo wget https://raw.github.com/gitlabhq/gitlab-recipes/master/init.d/gitlab -P /etc/init.d/
-sudo chmod +x /etc/init.d/gitlab && sudo update-rc.d gitlab defaults
-
-# Go to gitlab directory by default on next login.
-echo 'cd /home/gitlab/gitlab' >> /home/ubuntu/.bashrc
