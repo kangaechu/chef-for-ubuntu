@@ -46,7 +46,7 @@ template "/home/ubuntu/install_script.sh" do
   group "ubuntu"
 end
 
-execute "prevent fingerprint prompt for localhost"
+execute "prevent fingerprint prompt for localhost" do
   command "echo 'Host localhost
    StrictHostKeyChecking no
    UserKnownHostsFile=/dev/null' | sudo tee -a /etc/ssh/ssh_config"
