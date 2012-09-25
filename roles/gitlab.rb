@@ -9,6 +9,7 @@
 name "gitlab"
 description "Base role for this cookbook"
 run_list(
+  "recipe[gitlab::packages]",
   "recipe[gitlab::create_users]", # need users for setup_ebs ownership
   "recipe[gitlab::mount_ebs]", # always mount, can trow away on swap
   "recipe[gitlab::setup_ebs]", # always setup, can trow away on swap
