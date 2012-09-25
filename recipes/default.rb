@@ -79,10 +79,10 @@ execute "tighten gitlab config permissions" do
   command "chmod 660 /home/gitlab/gitlab/config/*.yml"
 end
 
-execute "configure Unicorn" do
+execute "configure Unicorn" do # .orig will change to .example
   user 'gitlab'
   group 'gitlab'
-  command "cp /home/gitlab/gitlab/config/unicorn.rb.example /home/gitlab/gitlab/config/unicorn.rb"
+  command "cp /home/gitlab/gitlab/config/unicorn.rb.orig /home/gitlab/gitlab/config/unicorn.rb"
 end
 
 cookbook_file "/etc/init.d/gitlab" do
@@ -99,6 +99,7 @@ end
 
 execute "go to gitlab directory by default on next login" do
   command "echo 'cd /home/gitlab/gitlab' >> /home/ubuntu/.bashrc"
+not_if "grep /home/gitlab/gitlab /home/ubuntu/.bashrc"
 end
 
 template "/home/gitlab/gitlab/config/database.yml" do
