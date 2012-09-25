@@ -42,18 +42,14 @@ execute "adapt gitolite.rc umask" do
   command "sed -i 's/0077/0007/g' /home/git/.gitolite.rc"
 end
 
-execute "move to ebs, first need to do install since script chokes on existing symlink" do
-  user "git"
-  group "git"
-  cwd "/home/git"
+execute "move to ebs, do after install since that script chokes on an existing symlink" do
   command "mv /home/git/.gitolite /mnt/ebs/dotgitolite"
 end
 
-execute "link back from ebs" do
-  user "git"
-  group "git"
-  cwd "/home/git"
-  command "ln -s /mnt/ebs/dotgitolite /home/git/.gitolite"
+link "/home/git/.gitolite" do
+  to "/mnt/ebs/dotgitolite"
+  owner 'git'
+  group 'git'
 end
 
 execute "test by cloning a repo" do
