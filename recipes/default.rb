@@ -70,7 +70,7 @@ end
 execute "tighten gitolite permissions" do
   user "git"
   group "git"
-  execute "chmod 750 /home/git/gitolite"
+  command "chmod 750 /home/git/gitolite"
 end
 
 execute "tighten gitlab config permissions" do
