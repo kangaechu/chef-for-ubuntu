@@ -31,7 +31,8 @@ execute "setup with ssh key" do
   user "git"
   group "git"
   cwd "/home/git"
-  command "PATH=/home/git/bin:$PATH; gitolite setup -pk /home/git/gitlab.pub"
+  # home directory must be set, otherwise tries to open /home/ubuntu/.gitolite.rc
+  command "HOME=/home/git;PATH=/home/git/bin:$PATH; gitolite setup -pk /home/git/gitlab.pub"
 end
 
 execute "adapt gitolite.rc umask" do
