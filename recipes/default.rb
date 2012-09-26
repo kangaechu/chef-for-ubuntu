@@ -86,6 +86,16 @@ execute "configure Unicorn" do # .orig will change to .example
 not_if {File.exists?("/home/gitlab/gitlab/config/unicorn.rb")}
 end
 
+template "/home/gitlab/gitlab/config/database.yml" do
+  source "database.yml.erb"
+  mode 0644
+  owner "gitlab"
+  group "gitlab"
+  variables(
+    :database => data_bag_item('services', 'gitlab')['database'],
+  )
+end
+
 cookbook_file "/etc/init.d/gitlab" do
   source "gitlab_init"
   mode 0755
@@ -101,16 +111,6 @@ end
 execute "go to gitlab directory by default on next login" do
   command "echo 'cd /home/gitlab/gitlab' >> /home/ubuntu/.bashrc"
 not_if "grep /home/gitlab/gitlab /home/ubuntu/.bashrc"
-end
-
-template "/home/gitlab/gitlab/config/database.yml" do
-  source "database.yml.erb"
-  mode 0644
-  owner "gitlab"
-  group "gitlab"
-  variables(
-    :database => data_bag_item('services', 'gitlab')['database'],
-  )
 end
 
 # # Include cookbook dependencies
