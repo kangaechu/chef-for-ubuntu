@@ -10,5 +10,5 @@ end
 
 execute "add gitlab to git group" do
   command "usermod -a -G git gitlab"
-  not_if "grep gitlab /etc/passwd"
+  not_if "grep git: /etc/group | grep gitlab"
 end
