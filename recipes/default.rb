@@ -83,6 +83,7 @@ execute "configure Unicorn" do # .orig will change to .example
   user 'gitlab'
   group 'gitlab'
   command "cp /home/gitlab/gitlab/config/unicorn.rb.orig /home/gitlab/gitlab/config/unicorn.rb"
+not_if {File.exists?("/home/gitlab/gitlab/config/unicorn.rb")}
 end
 
 cookbook_file "/etc/init.d/gitlab" do

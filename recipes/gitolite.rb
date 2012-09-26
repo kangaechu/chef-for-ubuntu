@@ -26,6 +26,7 @@ execute "add git bin to path" do
   user "git"
   group "git"
   command "echo -e 'export PATH=$PATH:/home/git/bin' >> /home/git/.profile"
+not_if "grep 'PATH:/home/git/bin' /home/git/.profile"
 end
 
 execute "run install" do
@@ -33,6 +34,7 @@ execute "run install" do
   group "git"
   cwd "/home/git"
   command "gitolite/install -ln /home/git/bin"
+not_if {File.exists?("/home/git/bin/gitolite")}
 end
 
 execute "setup with ssh key" do
@@ -41,6 +43,7 @@ execute "setup with ssh key" do
   cwd "/home/git"
   # home directory must be set, otherwise tries to open /home/ubuntu/.gitolite.rc
   command "HOME=/home/git;PATH=/home/git/bin:$PATH; gitolite setup -pk /home/git/gitlab.pub"
+not_if {File.exists?("/home/git/.gitolite/conf")}
 end
 
 execute "adapt gitolite.rc umask" do
