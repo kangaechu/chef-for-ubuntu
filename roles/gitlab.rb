@@ -17,7 +17,7 @@ run_list(
   "recipe[gitlab]",
   "recipe[gitlab::nginx]",
   "recipe[gitlab::email]",
-  "recipe[gitlab::startup]"
+  "recipe[gitlab::restart]"
 ) # recipe[gitlab::setup_db] and recipe[gitlab::attach_eip] are in server.rb
 default_attributes({
   # All in databag

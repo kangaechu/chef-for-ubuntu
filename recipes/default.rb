@@ -105,7 +105,7 @@ end
 
 service "gitlab" do
   supports :start => true, :stop => true, :restart => true, :reload => true
-  action :enable
+  action [:enable, :start]
 end
 
 execute "go to gitlab directory by default on next login" do
