@@ -12,3 +12,11 @@ execute "add gitlab to git group" do
   command "usermod -a -G git gitlab"
   not_if "grep git: /etc/group | grep gitlab"
 end
+
+execute "check git user id" do
+  command "id -u git | grep 106"
+end
+
+execute "check gitlab user id" do
+  command "id -u gitlab | grep 1001"
+end
