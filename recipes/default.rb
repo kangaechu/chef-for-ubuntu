@@ -79,10 +79,10 @@ execute "tighten gitlab config permissions" do
   command "chmod 660 /home/gitlab/gitlab/config/*.yml"
 end
 
-execute "configure Unicorn" do # .orig will change to .example
+execute "configure Unicorn" do
   user 'gitlab'
   group 'gitlab'
-  command "cp /home/gitlab/gitlab/config/unicorn.rb.orig /home/gitlab/gitlab/config/unicorn.rb"
+  command "cp /home/gitlab/gitlab/config/unicorn.rb.example /home/gitlab/gitlab/config/unicorn.rb"
 not_if {File.exists?("/home/gitlab/gitlab/config/unicorn.rb")}
 end
 
