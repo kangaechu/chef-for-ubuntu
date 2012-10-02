@@ -57,12 +57,12 @@ not_if {File.exists?("/home/gitlab/.ssh/id_rsa")}
 end
 
 execute "move ssh dir out of the way" do
-  command "cp -r /etc/ssh /etc/ssh_old"
+  command "mv /etc/ssh /etc/ssh_old"
 not_if {File.exists?("/etc/ssh_old")}
 end
 
 execute "make sure the ebs volume contains keys" do
-  command "cp -r /etc/ssh_old /mnt/ebs/ssh"
+  command "cp -r /etc/ssh_old/. /mnt/ebs/ssh"
 not_if {File.exists?("/mnt/ebs/ssh/ssh_host_ecdsa_key.pub")}
 end
 
