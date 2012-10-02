@@ -57,7 +57,7 @@ not_if {File.exists?("/home/gitlab/.ssh/id_rsa")}
 end
 
 execute "move ssh dir out of the way" do
-  command "mv /etc/ssh /etc/ssh_old"
+  command "cp /etc/ssh /etc/ssh_old"
 not_if {File.exists?("/etc/ssh_old")}
 end
 
