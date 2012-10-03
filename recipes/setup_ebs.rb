@@ -56,20 +56,20 @@ execute "generate ssh key for gitlab to access gitolite" do
 not_if {File.exists?("/home/gitlab/.ssh/id_rsa")}
 end
 
-%w(dsa rsa ecdsa).each do |standard|
-  execute "copy #{standard} key to the ebs drive if it is empty" do
-    command "cp -r /etc/ssh/ssh_host_#{standard}_key /mnt/ebs/ssh/ssh_host_#{standard}_key"
-  not_if {File.exists?("/mnt/ebs/ssh/ssh_host_#{standard}_key")}
-  end
-end
+# %w(dsa rsa ecdsa).each do |standard|
+#   execute "copy #{standard} key to the ebs drive if it is empty" do
+#     command "cp -r /etc/ssh/ssh_host_#{standard}_key /mnt/ebs/ssh/ssh_host_#{standard}_key"
+#   not_if {File.exists?("/mnt/ebs/ssh/ssh_host_#{standard}_key")}
+#   end
+# end
 
-execute "the git user sees the keys from the ebs drive to preserve the fingerprint" do
-  command "echo 'Match User git
-   HostKey /mnt/ebs/ssh/ssh_host_rsa_key
-   HostKey /mnt/ebs/ssh/ssh_host_dsa_key
-   HostKey /mnt/ebs/ssh/ssh_host_ecdsa_key' | sudo tee -a /etc/ssh/sshd_config"
-not_if "grep 'Match User git' /etc/ssh/sshd_config"
-end
+# execute "the git user sees the keys from the ebs drive to preserve the fingerprint" do
+#   command "echo 'Match User git
+#    HostKey /mnt/ebs/ssh/ssh_host_rsa_key
+#    HostKey /mnt/ebs/ssh/ssh_host_dsa_key
+#    HostKey /mnt/ebs/ssh/ssh_host_ecdsa_key' | sudo tee -a /etc/ssh/sshd_config"
+# not_if "grep 'Match User git' /etc/ssh/sshd_config"
+# end
 
 # second symlink for gitolite setup, permissions should already be 0644
 # TODO remove this symlink and run setup with normal key
