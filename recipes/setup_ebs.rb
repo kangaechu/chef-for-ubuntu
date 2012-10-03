@@ -60,8 +60,8 @@ ssh_data_bag = data_bag_item('ssh', 'gitlab')
 
 %w(dsa rsa ecdsa).each do |ssh_standard|
   # Private keys
-  private_filename = "ssh_host_#{ssh_standard}_key_example" # TODO remove _example
-  file "/etc/ssh/#{private_filename}" do
+  private_filename = "ssh_host_#{ssh_standard}_key"
+  file "/etc/ssh/#{private_filename}_example" do # TODO remove _example
     content ssh_data_bag[private_filename]
     owner "root"
     group "root"
@@ -69,7 +69,7 @@ ssh_data_bag = data_bag_item('ssh', 'gitlab')
   end
   # Public keys
   public_filename = "#{private_filename}.pub"
-  file "/etc/ssh/#{public_filename}" do
+  file "/etc/ssh/#{public_filename}_example" do # TODO remove _example
     content ssh_data_bag[public_filename]
     owner "root"
     group "root"
