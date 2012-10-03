@@ -62,7 +62,7 @@ ssh_data_bag = data_bag_item('ssh', 'gitlab')
   # Private keys
   private_filename = "ssh_host_#{ssh_standard}_key_example" # TODO remove _example
   file "/etc/ssh/#{private_filename}" do
-    content ssh_data_bag["private_filename"]
+    content ssh_data_bag[private_filename]
     owner "root"
     group "root"
     mode 0600
@@ -70,7 +70,7 @@ ssh_data_bag = data_bag_item('ssh', 'gitlab')
   # Public keys
   public_filename = "#{private_filename}.pub"
   file "/etc/ssh/#{public_filename}" do
-    content ssh_data_bag["public_filename"]
+    content ssh_data_bag[public_filename]
     owner "root"
     group "root"
     mode 0644
