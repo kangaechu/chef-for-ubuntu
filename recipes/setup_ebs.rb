@@ -56,20 +56,26 @@ execute "generate ssh key for gitlab to access gitolite" do
 not_if {File.exists?("/home/gitlab/.ssh/id_rsa")}
 end
 
-# %w(dsa rsa ecdsa).each do |standard|
-#   execute "copy #{standard} key to the ebs drive if it is empty" do
-#     command "cp -r /etc/ssh/ssh_host_#{standard}_key /mnt/ebs/ssh/ssh_host_#{standard}_key"
-#   not_if {File.exists?("/mnt/ebs/ssh/ssh_host_#{standard}_key")}
-#   end
-# end
+ssh_data_bag = data_bag_item('ssh', 'gitlab')
 
-# execute "the git user sees the keys from the ebs drive to preserve the fingerprint" do
-#   command "echo 'Match User git
-#    HostKey /mnt/ebs/ssh/ssh_host_rsa_key
-#    HostKey /mnt/ebs/ssh/ssh_host_dsa_key
-#    HostKey /mnt/ebs/ssh/ssh_host_ecdsa_key' | sudo tee -a /etc/ssh/sshd_config"
-# not_if "grep 'Match User git' /etc/ssh/sshd_config"
-# end
+%w(dsa rsa ecdsa).each do |ssh_standard|
+  # Private keys
+  private_filename = "ssh_host_#{ssh_standard}_key_example" # TODO remove _example
+  file "/etc/ssh/#{private_filename}" do
+    content ssh_data_bag["private_filename"]
+    owner "root"
+    group "root"
+    mode 0600
+  end
+  # Public keys
+  public_filename = "#{private_filename}.pub"
+  file "/etc/ssh/#{public_filename}" do
+    content ssh_data_bag["public_filename"]
+    owner "root"
+    group "root"
+    mode 0644
+  end
+end
 
 # second symlink for gitolite setup, permissions should already be 0644
 # TODO remove this symlink and run setup with normal key
