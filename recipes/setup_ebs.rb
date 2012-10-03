@@ -56,19 +56,19 @@ execute "generate ssh key for gitlab to access gitolite" do
 not_if {File.exists?("/home/gitlab/.ssh/id_rsa")}
 end
 
-execute "move ssh dir out of the way" do
-  command "mv /etc/ssh /etc/ssh_old"
-not_if {File.exists?("/etc/ssh_old")}
+%w(dsa rsa ecdsa).each do |standard|
+  execute "copy the keys to the ebs drive if it is empty" do
+    command "cp -r /etc/ssh/ssh_host_#{standard}_key /mnt/ebs/ssh/ssh_host_#{standard}_key"
+  not_if {File.exists?("/mnt/ebs/ssh/ssh_host_#{standard}_key")}
+  end
 end
 
-execute "make sure the ebs volume contains keys" do
-  command "cp -r /etc/ssh_old/. /mnt/ebs/ssh"
-not_if {File.exists?("/mnt/ebs/ssh/ssh_host_ecdsa_key.pub")}
-end
-
-# ssh symlink
-link "/etc/ssh" do
-  to "/mnt/ebs/ssh"
+execute "the git user sees the keys from the ebs drive to preserve the fingerprint" do
+  command "echo 'Match User git
+   HostKey /mnt/ebs/ssh/ssh_host_rsa_key
+   HostKey /mnt/ebs/ssh/ssh_host_dsa_key
+   HostKey /mnt/ebs/ssh/ssh_host_ecdsa_key' | sudo tee -a /etc/ssh/sshd_config"
+not_if "grep 'Match User git' /etc/ssh/sshd_config"
 end
 
 # second symlink for gitolite setup, permissions should already be 0644
