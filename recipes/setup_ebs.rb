@@ -57,7 +57,7 @@ not_if {File.exists?("/home/gitlab/.ssh/id_rsa")}
 end
 
 %w(dsa rsa ecdsa).each do |standard|
-  execute "copy the keys to the ebs drive if it is empty" do
+  execute "copy #{standard} key to the ebs drive if it is empty" do
     command "cp -r /etc/ssh/ssh_host_#{standard}_key /mnt/ebs/ssh/ssh_host_#{standard}_key"
   not_if {File.exists?("/mnt/ebs/ssh/ssh_host_#{standard}_key")}
   end
