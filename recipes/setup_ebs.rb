@@ -25,15 +25,6 @@ directory "/mnt/ebs/dotssh" do
   recursive true
 end
 
-# ssh dir
-directory "/mnt/ebs/ssh" do
-  mode "0755"
-  owner "root"
-  group "root"
-  action :create
-  recursive true
-end
-
 # repositories symlink (need to do before gitolite setup)
 link "/home/git/repositories" do
   to "/mnt/ebs/repositories"
@@ -58,23 +49,20 @@ end
 
 ssh_data_bag = data_bag_item('ssh', 'gitlab')
 
+def write_key(filename, filemode)
+  file "/etc/ssh/#{filename}" do
+    content ssh_data_bag[filename]
+    owner "root"
+    group "root"
+    mode filemode
+  end
+end
+
 %w(dsa rsa ecdsa).each do |ssh_standard|
-  # Private keys
   private_filename = "ssh_host_#{ssh_standard}_key"
-  file "/etc/ssh/#{private_filename}" do
-    content ssh_data_bag[private_filename]
-    owner "root"
-    group "root"
-    mode 0600
-  end
-  # Public keys
+  write_key(private_filename, 0600)
   public_filename = "#{private_filename}.pub"
-  file "/etc/ssh/#{public_filename}" do
-    content ssh_data_bag[public_filename]
-    owner "root"
-    group "root"
-    mode 0644
-  end
+  write_key(public_filename, 0644)
 end
 
 service "ssh" do
