@@ -15,7 +15,7 @@ end
 
 execute "format EBS drive" do
   command "mkfs.ext4 /dev/xvdi"
-only_if { `blkid | grep /dev/xvdi | grep ext4`.empty? }
+not_if "blkid | grep /dev/xvdi"
 end
 
 # Mount point for EBS
