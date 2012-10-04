@@ -47,22 +47,20 @@ execute "generate ssh key for gitlab to access gitolite" do
 not_if {File.exists?("/home/gitlab/.ssh/id_rsa")}
 end
 
-ssh_data_bag = data_bag_item('ssh', 'gitlab')
-
-def write_key(filename, filemode)
-  file "/etc/ssh/#{filename}" do
-    content ssh_data_bag[filename]
+def write_key(file_name, file_mode, file_content)
+  file "/etc/ssh/#{file_name}" do
+    content file_content
     owner "root"
     group "root"
-    mode filemode
+    mode file_mode
   end
 end
 
 %w(dsa rsa ecdsa).each do |ssh_standard|
   private_filename = "ssh_host_#{ssh_standard}_key"
-  write_key(private_filename, 0600)
+  write_key(private_filename, 0600, data_bag_item('ssh', 'gitlab')[private_filename])
   public_filename = "#{private_filename}.pub"
-  write_key(public_filename, 0644)
+  write_key(public_filename, 0644, data_bag_item('ssh', 'gitlab')[public_filename])
 end
 
 service "ssh" do
