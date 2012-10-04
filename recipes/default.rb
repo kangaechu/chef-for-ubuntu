@@ -33,6 +33,12 @@ git '/home/gitlab/gitlab' do
   group 'gitlab'
 end
 
+execute "change site template for staging" do
+  cwd "/home/gitlab/gitlab/db"
+  command "sed -i 's/t.integer\s\{1,\} \"theme_id\",\s\{1,\}:default => 1,\s\{1,\}:null => false/t.integer\ \"theme_id\",\                              :default => 2,\     :null => false/' schema.rb"
+  only_if { 'gitlab.info' == data_bag_item('services', 'gitlab')['fqdn'] }
+end
+
 directory "/home/gitlab/gitlab/tmp" do
   owner "gitlab"
   group "gitlab"
