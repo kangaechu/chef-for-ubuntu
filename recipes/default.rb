@@ -102,14 +102,17 @@ template "/home/gitlab/gitlab/config/database.yml" do
   )
 end
 
-cookbook_file "/etc/init.d/gitlab" do
-  source "gitlab_init"
+template "/etc/init.d/gitlab" do
+  source "gitlab_init.erb"
   mode 0755
   owner "root"
   group "root"
+  notifies :enable, "service[gitlab]", :immediately
+  notifies :start, "service[gitlab]", :immediately
 end
 
 service "gitlab" do
+  provider Chef::Provider::Service::Init::Debian
   supports :start => true, :stop => true, :restart => true, :reload => true
   action [:enable, :start]
 end
