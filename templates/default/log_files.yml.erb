@@ -1,0 +1,16 @@
+files:
+  - /var/log/httpd/access_log
+  - /var/log/httpd/error_log
+  - /var/log/nginx/access.log
+  - /var/log/nginx/error.log
+  - /var/log/nginx/gitlab_access.log
+  - /var/log/nginx/gitlab_error.log
+  - /var/log/redis/*.log
+  - /home/gitlab/gitlab/log/application.log
+  - /home/gitlab/gitlab/log/production.log
+  - /home/gitlab/gitlab/log/unicorn.stderr.log
+  - /home/gitlab/gitlab/log/unicorn.stdout.log
+
+destination:
+  host: logs.papertrailapp.com
+  port: <%= @papertrail.port %>
