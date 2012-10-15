@@ -11,6 +11,8 @@ end
 
 python_pip "pygments" do
   action :install
+  retries 3
+  retry_delay 2
 end
 
 gem_package "bundler" do
