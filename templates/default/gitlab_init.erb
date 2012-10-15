@@ -1,8 +1,9 @@
-#! /bin/bash
+#!/bin/bash
 
 # GITLAB
 # Maintainer: @randx
-# App Version: 2.9
+# App Version: 2.9.1
+# Init script edited by: @maxlazio
 
 ### BEGIN INIT INFO
 # Provides:          gitlab
@@ -14,48 +15,89 @@
 # Description:       GitLab git repository management
 ### END INIT INFO
 
-
 APP_ROOT="/home/gitlab/gitlab"
 DAEMON_OPTS="-c $APP_ROOT/config/unicorn.rb -E production -D"
 NAME="unicorn"
 DESC="Gitlab service"
-PID="$APP_ROOT/tmp/pids/unicorn.pid"
+UNICORN_PID="unicorn.pid"
+UNICORN_PID_PATH="$APP_ROOT/tmp/pids/$UNICORN_PID"
 RESQUE_PID="$APP_ROOT/tmp/pids/resque_worker.pid"
 
-case "$1" in
-  start)
-        CD_TO_APP_DIR="cd $APP_ROOT"
-        START_DAEMON_PROCESS="bundle exec unicorn_rails $DAEMON_OPTS"
-        START_RESQUE_PROCESS="./resque.sh"
-
-        echo -n "Starting $DESC: "
-        if [ `whoami` = root ]; then
-          sudo -u gitlab sh -l -c "$CD_TO_APP_DIR && $START_DAEMON_PROCESS && $START_RESQUE_PROCESS"
-        else
-          $CD_TO_APP_DIR && $START_DAEMON_PROCESS && $START_RESQUE_PROCESS
-        fi
-        echo "$NAME."
-        ;;
-  stop)
-        echo -n "Stopping $DESC: "
-        kill -QUIT `cat $PID`
-        kill -QUIT `cat $RESQUE_PID`
-        echo "$NAME."
-        ;;
-  restart)
-        echo -n "Restarting $DESC: "
-        kill -USR2 `cat $PID`
-        echo "$NAME."
-        ;;
-  reload)
-        echo -n "Reloading $DESC configuration: "
-        kill -HUP `cat $PID`
-        echo "$NAME."
-        ;;
-  *)
-        echo "Usage: $NAME {start|stop|restart|reload}" >&2
+start() {
+    cd $APP_ROOT
+    if [ -e "$UNICORN_PID_PATH" ]; then
+        ## Program is running, exit with error.
+        echo "Error! $DESC $NAME is currently running!" 1>&2
         exit 1
-        ;;
-esac
+    else
+        if [ `whoami` = root ]; then
+          sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh &"
+        else
+          bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
+        fi
+        echo "$DESC started"
+    fi
+}
 
-exit 0
+stop() {
+    cd $APP_ROOT
+    if [ -e "$UNICORN_PID_PATH" ]; then
+        ## Program is running, stop it.
+        kill -QUIT `cat $UNICORN_PID_PATH`
+        kill -QUIT `cat $RESQUE_PID`
+        rm "$UNICORN_PID_PATH" >> /dev/null
+        rm "$RESQUE_PID" >> /dev/null
+        echo "$DESC stopped"
+    else
+        ## Program is not running, exit with error.
+        echo "Error! $DESC not started!" 1>&2
+        exit 1
+    fi
+}
+
+status() {
+    cd $APP_ROOT
+    if [ -e "$UNICORN_PID_PATH" ]; then
+      PID=$(cat $UNICORN_PID_PATH)
+      STATUS=$(ps aux | grep $PID | grep -v grep | wc -l)
+    else
+      STATUS=$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep | wc -l)
+    fi
+    if [[ $STATUS -eq 0 ]]; then
+        echo "$DESC is not running."
+        exit 3
+    else
+        echo "$DESC with PID $PID is running."
+    fi
+}
+
+## Check to see if we are running as root first.
+## Found at http://www.cyberciti.biz/tips/shell-root-user-check-script.html
+if [ "$(id -u)" != "0" ]; then
+    echo "This script must be run as root" 1>&2
+    exit 1
+fi
+
+case "$1" in
+    start)
+        start
+        exit 0
+    ;;
+    stop)
+        stop
+        exit 0
+    ;;
+    reload|restart|force-reload)
+        stop
+        start
+        exit 0
+    ;;
+    status)
+        status
+        exit 0
+    ;;
+    **)
+        echo "Usage: $0 {start|stop|reload}" 1>&2
+        exit 1
+    ;;
+esac
