@@ -110,8 +110,7 @@ template "/etc/init.d/gitlab" do
   notifies :enable, "service[gitlab]", :immediately
 end
 
-service "gitlab enable" do
-  service_name "gitlab"
+service "gitlab" do
   provider Chef::Provider::Service::Init::Debian
   supports :start => true, :stop => true, :restart => true, :reload => true
   action :enable
