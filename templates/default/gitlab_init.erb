@@ -32,6 +32,10 @@ start() {
     else
         if [ `whoami` = root ]; then
           sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh &"
+          echo "Root user."
+          sleep 10
+          STATUS=$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep | wc -l)
+          echo "After sleep, user processes: $STATUS"
         else
           bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
         fi
@@ -61,10 +65,9 @@ status() {
       PID=$(cat $UNICORN_PID_PATH)
       STATUS=$(ps aux | grep $PID | grep -v grep | wc -l)
     else
-      STATUS=$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)
-      echo "Gitlab user processes: $STATUS"
+      STATUS=$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep | wc -l)
+      echo "Number of gitlab user processes: $STATUS"
       echo "$DESC is not running."
-      exit 2
     fi
     if [[ $STATUS -eq 0 ]]; then
         echo "$DESC is not running."
