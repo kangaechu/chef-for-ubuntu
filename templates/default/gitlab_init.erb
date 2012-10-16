@@ -25,6 +25,8 @@ RESQUE_PID="$APP_ROOT/tmp/pids/resque_worker.pid"
 
 start() {
     cd $APP_ROOT
+    echo "START START" >> $APP_ROOT/log/processes.log
+    echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
     if [ -e "$UNICORN_PID_PATH" ]; then
         ## Program is running, exit with error.
         echo "Error! $DESC $NAME is currently running!" 1>&2
@@ -35,9 +37,10 @@ start() {
         else
           bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
         fi
-        echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
         echo "$DESC started"
     fi
+    echo "START END" >> $APP_ROOT/log/processes.log
+    echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
 }
 
 stop() {
