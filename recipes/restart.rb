@@ -17,5 +17,5 @@ end
 execute "Gitlab status" do
   user 'root'
   group 'root'
-  command "service gitlab status && echo $?"
+  command "service gitlab status"
 end
