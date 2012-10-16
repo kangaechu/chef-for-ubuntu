@@ -32,10 +32,6 @@ start() {
     else
         if [ `whoami` = root ]; then
           sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh &"
-          echo "Root user."
-          sleep 10
-          STATUS=$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep | wc -l)
-          echo "After sleep, user processes: $STATUS"
         else
           bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
         fi
