@@ -107,12 +107,12 @@ template "/etc/init.d/gitlab" do
   mode 0755
   owner "root"
   group "root"
-  notifies :enable, "service[gitlab]", :immediately
+  notifies :enable, "service[gitlab]"
 end
 
 service "gitlab" do
   provider Chef::Provider::Service::Init::Debian
-  supports :start => true, :stop => true, :restart => true, :reload => true
+  supports :start => true, :stop => true, :restart => true, :reload => true, :status => true
   action :enable
 end
 
