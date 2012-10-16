@@ -13,3 +13,9 @@ execute "Gitlab start" do
   group 'root'
   command "service gitlab start"
 end
+
+execute "Gitlab status" do
+  user 'root'
+  group 'root'
+  command "service gitlab status && echo $?"
+end
