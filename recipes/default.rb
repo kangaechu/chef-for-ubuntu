@@ -108,13 +108,13 @@ template "/etc/init.d/gitlab" do
   owner "root"
   group "root"
   notifies :enable, "service[gitlab]", :immediately
-  notifies :start, "service[gitlab]", :immediately
 end
 
-service "gitlab" do
+service "gitlab enable" do
+  service_name "gitlab"
   provider Chef::Provider::Service::Init::Debian
   supports :start => true, :stop => true, :restart => true, :reload => true
-  action [:enable, :start]
+  action :enable
 end
 
 execute "go to gitlab directory by default on next login" do

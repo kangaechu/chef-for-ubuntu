@@ -2,8 +2,7 @@ service "nginx" do
   action :restart
 end
 
-service "gitlab restart" do
-  service_name "gitlab"
+service "gitlab" do
   provider Chef::Provider::Service::Init::Debian
-  action :restart
+  action :start
 end
