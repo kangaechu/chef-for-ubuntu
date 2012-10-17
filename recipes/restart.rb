@@ -17,5 +17,5 @@ end
 execute "Gitlab status" do
   user 'root'
   group 'root'
-  command "service gitlab status"
+  command "service gitlab status >> /home/gitlab/gitlab/log/nohup.log"
 end
