@@ -36,7 +36,7 @@ start() {
     else
         if [ `whoami` = root ]; then
           #nohup sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh" &
-          nohup sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS >> $APP_ROOT/log/processes.log" &
+          nohup sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS" >> $APP_ROOT/log/nohup.log &
           echo "START line 39, starting gitlab as root." >> $APP_ROOT/log/processes.log
           echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
         else
