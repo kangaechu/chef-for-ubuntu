@@ -11,7 +11,7 @@ end
 execute "Gitlab start" do
   user 'root'
   group 'root'
-  command "/usr/bin/nohup sh -c 'service gitlab start /home/gitlab/gitlab/log/nohup.log' &>/dev/null </dev/null &"
+  command "/usr/bin/nohup sh -c 'service gitlab start >> /home/gitlab/gitlab/log/nohup.log' &>/dev/null </dev/null &"
 end
 
 execute "Gitlab status" do
