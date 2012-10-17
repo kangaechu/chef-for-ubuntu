@@ -67,14 +67,14 @@ stop() {
 
 status() {
     cd $APP_ROOT
-    echo "STATUS START" >> $APP_ROOT/log/processes.log
+    echo "$DESC status" >> $APP_ROOT/log/processes.log
     echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
     if [ -e "$UNICORN_PID_PATH" ]; then
       PID=$(cat $UNICORN_PID_PATH)
       STATUS=$(ps aux | grep $PID | grep -v grep | wc -l)
     else
       STATUS=$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep | wc -l)
-      echo "Number of gitlab user processes: $STATUS"
+      PID="not available"
       echo "$DESC is not running."
     fi
     if [[ $STATUS -eq 0 ]]; then
@@ -83,8 +83,7 @@ status() {
     else
         echo "$DESC with PID $PID is running."
     fi
-    echo "STATUS END" >> $APP_ROOT/log/processes.log
-    echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
+    echo "$DESC status end." >> $APP_ROOT/log/processes.log
 }
 
 ## Check to see if we are running as root first.
