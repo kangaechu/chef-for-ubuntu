@@ -11,7 +11,7 @@ end
 execute "Gitlab start" do
   user 'root'
   group 'root'
-  command "service gitlab start"
+  command "/usr/bin/nohup /etc/init.d/gitlab start"
 end
 
 execute "Gitlab status" do
