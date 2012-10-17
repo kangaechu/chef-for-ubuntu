@@ -11,7 +11,7 @@ end
 execute "Gitlab start" do
   user 'root'
   group 'root'
-  command "screen nohup bash -c 'service gitlab start'"
+  command "service gitlab start"
 end
 
 execute "Gitlab status" do
