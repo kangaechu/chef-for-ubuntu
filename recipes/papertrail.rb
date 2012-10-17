@@ -23,4 +23,5 @@ end
 
 execute "start the gem" do # Not sure if this is idempotent.
   command "sudo remote_syslog"
+  not_if "ps aux | grep remote_syslog | grep -v grep"
 end
