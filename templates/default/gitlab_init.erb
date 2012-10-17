@@ -52,6 +52,8 @@ start() {
 stop() {
     cd $APP_ROOT
     if [ -e "$UNICORN_PID_PATH" ]; then
+    echo "STOP line 55, pid exists" >> $APP_ROOT/log/processes.log
+    echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
         ## Program is running, stop it.
         kill -QUIT `cat $UNICORN_PID_PATH`
         kill -QUIT `cat $RESQUE_PID`
@@ -59,10 +61,14 @@ stop() {
         rm "$RESQUE_PID" >> /dev/null
         echo "$DESC stopped"
     else
+    echo "STOP line 64, no pid" >> $APP_ROOT/log/processes.log
+    echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
         ## Program is not running, exit with error.
         echo "Error! $DESC not started!" 1>&2
         exit 1
     fi
+    echo "STOP end" >> $APP_ROOT/log/processes.log
+    echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
 }
 
 status() {
