@@ -45,6 +45,7 @@ start() {
         fi
         echo "$DESC started"
     fi
+    sleep 10
     echo "START line 48, END" >> $APP_ROOT/log/processes.log
     echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
 }
