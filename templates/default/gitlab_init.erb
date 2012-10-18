@@ -34,32 +34,32 @@ start() {
     else
         if [ `whoami` = root ]; then
           sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh &"
+          sleep 10 # Reason for sleep explained in: https://github.com/dosire/gitlab-recipes/issues/6#issuecomment-9527678
         else
           bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
         fi
         echo "$DESC started"
     fi
-    sleep 10 # Reason for sleep explained in: https://github.com/dosire/gitlab-recipes/issues/6#issuecomment-9527678
     echo "$DESC started." >> $APP_ROOT/log/processes.log
 }
 
 stop() {
     cd $APP_ROOT
     if [ -e "$UNICORN_PID_PATH" ]; then
-    echo "STOP line 55, pid exists" >> $APP_ROOT/log/processes.log
-    echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
-        ## Program is running, stop it.
-        kill -QUIT `cat $UNICORN_PID_PATH`
-        kill -QUIT `cat $RESQUE_PID`
-        rm "$UNICORN_PID_PATH" >> /dev/null
-        rm "$RESQUE_PID" >> /dev/null
-        echo "$DESC stopped"
+      echo "STOP line 55, pid exists" >> $APP_ROOT/log/processes.log
+      echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
+      ## Program is running, stop it.
+      kill -QUIT `cat $UNICORN_PID_PATH`
+      kill -QUIT `cat $RESQUE_PID`
+      rm "$UNICORN_PID_PATH" >> /dev/null
+      rm "$RESQUE_PID" >> /dev/null
+      echo "$DESC stopped"
     else
-    echo "STOP line 64, no pid" >> $APP_ROOT/log/processes.log
-    echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
-        ## Program is not running, exit with error.
-        echo "Error! $DESC not started!" 1>&2
-        exit 1
+      echo "STOP line 64, no pid" >> $APP_ROOT/log/processes.log
+      echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
+      ## Program is not running, exit with error.
+      echo "Error! $DESC not started!" 1>&2
+      exit 1
     fi
     echo "STOP end" >> $APP_ROOT/log/processes.log
     echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
