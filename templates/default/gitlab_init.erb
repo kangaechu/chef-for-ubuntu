@@ -2,7 +2,7 @@
 
 # GITLAB
 # Maintainer: @randx
-# App Version: 2.9.1
+# App Version: 3.0.3
 # Init script edited by: @maxlazio
 
 ### BEGIN INIT INFO
@@ -23,17 +23,29 @@ UNICORN_PID="unicorn.pid"
 UNICORN_PID_PATH="$APP_ROOT/tmp/pids/$UNICORN_PID"
 RESQUE_PID="$APP_ROOT/tmp/pids/resque_worker.pid"
 
+check_pid(){
+  if [ -f $UNICORN_PID_PATH ]; then
+    PID=`cat $UNICORN_PID_PATH`
+    STATUS=`ps aux | grep $PID | grep -v grep | wc -l`
+  else
+    STATUS=0
+    PID=0
+  fi
+}
+
 start() {
     cd $APP_ROOT
     echo "$DESC START" >> $APP_ROOT/log/processes.log
-    if [ -e "$UNICORN_PID_PATH" ]; then
+    check_pid
+    if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
         ## Program is running, exit with error.
         echo "Error! $DESC $NAME is currently running!" 1>&2
         echo "Program is running, exit with error." >> $APP_ROOT/log/processes.log
         exit 1
     else
         if [ `whoami` = root ]; then
-          sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh &"
+          sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS &"
+          sudo -u gitlab sh -l -c "$APP_ROOT/resque.sh &"
           sleep 10 # Reason for sleep explained in: https://github.com/dosire/gitlab-recipes/issues/6#issuecomment-9527678
         else
           bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
@@ -45,8 +57,8 @@ start() {
 
 stop() {
     cd $APP_ROOT
-    if [ -e "$UNICORN_PID_PATH" ]; then
-      echo "STOP line 55, pid exists" >> $APP_ROOT/log/processes.log
+    check_pid
+    if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
       echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
       ## Program is running, stop it.
       kill -QUIT `cat $UNICORN_PID_PATH`
@@ -55,35 +67,25 @@ stop() {
       rm "$RESQUE_PID" >> /dev/null
       echo "$DESC stopped"
     else
-      echo "STOP line 64, no pid" >> $APP_ROOT/log/processes.log
       echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
       ## Program is not running, exit with error.
       echo "Error! $DESC not started!" 1>&2
       exit 1
     fi
-    echo "STOP end" >> $APP_ROOT/log/processes.log
-    echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
 }
 
 status() {
     cd $APP_ROOT
     echo "$DESC status" >> $APP_ROOT/log/processes.log
     echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
-    if [ -e "$UNICORN_PID_PATH" ]; then
-      PID=$(cat $UNICORN_PID_PATH)
-      STATUS=$(ps aux | grep $PID | grep -v grep | wc -l)
+    check_pid
+    if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
+      echo "$DESC with PID $PID is running."
+      exit 0
     else
-      STATUS=$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep | wc -l)
-      PID="not available"
+
       echo "$DESC is not running."
     fi
-    if [[ $STATUS -eq 0 ]]; then
-        echo "$DESC is not running."
-        exit 3
-    else
-        echo "$DESC with PID $PID is running."
-    fi
-    echo "$DESC status end." >> $APP_ROOT/log/processes.log
 }
 
 ## Check to see if we are running as root first.
@@ -104,6 +106,7 @@ case "$1" in
     ;;
     reload|restart|force-reload)
         stop
+        sleep 5
         start
         exit 0
     ;;
