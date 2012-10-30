@@ -60,7 +60,7 @@ end
 
 execute "install gems" do
   cwd "/home/gitlab/gitlab"
-  command "bundle install --without development test --deployment"
+  command "bundle install --without development test postgres --deployment"
   user "gitlab"
   group "gitlab"
 end
