@@ -49,10 +49,11 @@ start() {
       echo "Am I root user or regular user?"
         if [ `whoami` = root ]; then
           echo "Root user starting unicorn rails"
-          sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS &"
-          echo "Bundle exec unicorn rails."
+          sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS"
+          echo "Bundle exec unicorn rails done."
+          echo "Executing resque.sh:"
           sudo -u gitlab sh -l -c "$APP_ROOT/resque.sh"
-          echo "execute resque.sh"
+          echo "Execute resque.sh done."
           #sleep 20 # Reason for sleep explained in: https://github.com/dosire/gitlab-recipes/issues/6#issuecomment-9527678
           echo "$DESC is starting." >> $APP_ROOT/log/processes.log
         else
