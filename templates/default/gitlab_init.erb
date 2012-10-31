@@ -39,20 +39,24 @@ start() {
     cd $APP_ROOT
     echo "$DESC START" >> $APP_ROOT/log/processes.log
     check_pid
+    echo "check_pid is completed."
     if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
         ## Program is running, exit with error.
         echo "Error! $DESC $NAME is currently running!" 1>&2
         echo "Program is running, exit with error." >> $APP_ROOT/log/processes.log
         exit 1
     else
+      echo "Am I root user or regular user?"
         if [ `whoami` = root ]; then
-          sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS"
+          echo "Root user starting unicorn rails"
+          sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS &"
           echo "Bundle exec unicorn rails."
           sudo -u gitlab sh -l -c "$APP_ROOT/resque.sh"
           echo "execute resque.sh"
           #sleep 20 # Reason for sleep explained in: https://github.com/dosire/gitlab-recipes/issues/6#issuecomment-9527678
           echo "$DESC is starting." >> $APP_ROOT/log/processes.log
         else
+          echo "Ubuntu user starting unicorn and resque."
           bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
         fi
         echo "$DESC started"
