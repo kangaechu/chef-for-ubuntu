@@ -39,7 +39,7 @@ start() {
     cd $APP_ROOT
     #echo "$DESC START" >> $APP_ROOT/log/processes.log
     check_pid
-    echo "check_pid is completed."
+    echo "check_pid is completed." 2>&1
     if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
         ## Program is running, exit with error.
         echo "Error! $DESC $NAME is currently running!"
