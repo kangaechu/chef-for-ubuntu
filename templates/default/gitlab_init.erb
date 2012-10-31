@@ -27,9 +27,11 @@ check_pid(){
   if [ -f $UNICORN_PID_PATH ]; then
     PID=`cat $UNICORN_PID_PATH`
     STATUS=`ps aux | grep $PID | grep -v grep | wc -l`
+    echo "PID is: $PID, number of running processes is $STATUS"
   else
     STATUS=0
     PID=0
+    echo "No pid and no processes running."
   fi
 }
 
@@ -45,10 +47,11 @@ start() {
     else
         if [ `whoami` = root ]; then
           sudo -u gitlab sh -l -c "bundle exec unicorn_rails $DAEMON_OPTS"
+          echo "Bundle exec unicorn rails."
           sudo -u gitlab sh -l -c "$APP_ROOT/resque.sh"
+          echo "execute resque.sh"
           #sleep 20 # Reason for sleep explained in: https://github.com/dosire/gitlab-recipes/issues/6#issuecomment-9527678
           echo "$DESC is starting." >> $APP_ROOT/log/processes.log
-          exit 0
         else
           bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
         fi
@@ -100,8 +103,9 @@ fi
 
 case "$1" in
     start)
+        echo "Start is triggered."
         start
-        echo "After the start has finished." >> $APP_ROOT/log/processes.log
+        echo "Start is completed."
         exit 0
     ;;
     stop)
