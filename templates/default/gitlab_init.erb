@@ -37,13 +37,13 @@ check_pid(){
 
 start() {
     cd $APP_ROOT
-    echo "$DESC START" >> $APP_ROOT/log/processes.log
+    #echo "$DESC START" >> $APP_ROOT/log/processes.log
     check_pid
     echo "check_pid is completed."
     if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
         ## Program is running, exit with error.
-        echo "Error! $DESC $NAME is currently running!" 1>&2
-        echo "Program is running, exit with error." >> $APP_ROOT/log/processes.log
+        echo "Error! $DESC $NAME is currently running!"
+        # echo "Program is running, exit with error." >> $APP_ROOT/log/processes.log
         exit 1
     else
       echo "Am I root user or regular user?"
@@ -55,14 +55,14 @@ start() {
           sudo -u gitlab sh -l -c "$APP_ROOT/resque.sh"
           echo "Execute resque.sh done."
           #sleep 20 # Reason for sleep explained in: https://github.com/dosire/gitlab-recipes/issues/6#issuecomment-9527678
-          echo "$DESC is starting." >> $APP_ROOT/log/processes.log
+          # echo "$DESC is starting." >> $APP_ROOT/log/processes.log
         else
           echo "Ubuntu user starting unicorn and resque."
           bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
         fi
         echo "$DESC started"
     fi
-    echo "$DESC started." >> $APP_ROOT/log/processes.log
+    # echo "$DESC started." >> $APP_ROOT/log/processes.log
     exit 0
 }
 
@@ -70,25 +70,27 @@ stop() {
     cd $APP_ROOT
     check_pid
     if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
-      echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
+      # echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
       ## Program is running, stop it.
       kill -QUIT `cat $UNICORN_PID_PATH`
       kill -QUIT `cat $RESQUE_PID`
-      rm "$UNICORN_PID_PATH" >> /dev/null
-      rm "$RESQUE_PID" >> /dev/null
+      #rm "$UNICORN_PID_PATH" >> /dev/null
+      rm "$UNICORN_PID_PATH"
+      #rm "$RESQUE_PID" >> /dev/null
+      rm "$RESQUE_PID"
       echo "$DESC stopped"
     else
-      echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
+      # echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
       ## Program is not running, exit with error.
-      echo "Error! $DESC not started!" 1>&2
+      echo "Error! $DESC not started!"
       exit 1
     fi
 }
 
 status() {
     cd $APP_ROOT
-    echo "$DESC status" >> $APP_ROOT/log/processes.log
-    echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
+    # echo "$DESC status" >> $APP_ROOT/log/processes.log
+    # echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
     check_pid
     if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
       echo "$DESC with PID $PID is running."
@@ -102,7 +104,7 @@ status() {
 ## Check to see if we are running as root first.
 ## Found at http://www.cyberciti.biz/tips/shell-root-user-check-script.html
 if [ "$(id -u)" != "0" ]; then
-    echo "This script must be run as root" 1>&2
+    echo "This script must be run as root"
     exit 1
 fi
 
@@ -128,7 +130,7 @@ case "$1" in
         exit 0
     ;;
     **)
-        echo "Usage: $0 {start|stop|reload}" 1>&2
+        echo "Usage: $0 {start|stop|reload}"
         exit 1
     ;;
 esac
