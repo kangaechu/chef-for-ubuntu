@@ -48,6 +48,7 @@ start() {
           sudo -u gitlab sh -l -c "$APP_ROOT/resque.sh"
           #sleep 20 # Reason for sleep explained in: https://github.com/dosire/gitlab-recipes/issues/6#issuecomment-9527678
           echo "$DESC is starting." >> $APP_ROOT/log/processes.log
+          exit 0
         else
           bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
         fi
