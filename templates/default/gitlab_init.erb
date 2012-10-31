@@ -83,8 +83,8 @@ status() {
       echo "$DESC with PID $PID is running."
       exit 0
     else
-
       echo "$DESC is not running."
+      exit 1
     fi
 }
 
