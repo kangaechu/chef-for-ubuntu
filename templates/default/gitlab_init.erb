@@ -52,7 +52,7 @@ start() {
           sudo -u gitlab sh -l -c "bundle exec unicorn_rails -c /home/gitlab/gitlab/config/unicorn.rb -E production &"
           echo "Bundle exec unicorn rails done."
           echo "Executing resque.sh:"
-          sudo -u gitlab sh -l -c "$APP_ROOT/resque.sh"
+          sudo -u gitlab sh -l -c "mkdir -p tmp/pids && bundle exec rake environment resque:work QUEUE=post_receive,mailer,system_hook RAILS_ENV=production PIDFILE=tmp/pids/resque_worker.pid BACKGROUND=yes"
           echo "Execute resque.sh done."
           #sleep 20 # Reason for sleep explained in: https://github.com/dosire/gitlab-recipes/issues/6#issuecomment-9527678
           # echo "$DESC is starting." >> $APP_ROOT/log/processes.log
