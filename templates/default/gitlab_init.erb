@@ -1,5 +1,5 @@
 #!/bin/bash
-echo "***The very beggining of the init script***"
+
 # GITLAB
 # Maintainer: @randx
 # App Version: 3.0.3
@@ -16,71 +16,52 @@ echo "***The very beggining of the init script***"
 ### END INIT INFO
 
 APP_ROOT="/home/gitlab/gitlab"
-DAEMON_OPTS="-c $APP_ROOT/config/unicorn.rb -E production -D"
+DAEMON_OPTS="-c $APP_ROOT/config/unicorn.rb -E production"
 NAME="unicorn"
 DESC="Gitlab service"
-UNICORN_PID="unicorn.pid"
-UNICORN_PID_PATH="$APP_ROOT/tmp/pids/$UNICORN_PID"
-RESQUE_PID="$APP_ROOT/tmp/pids/resque_worker.pid"
+PID_PATH="$APP_ROOT/tmp/pids"
+UNICORN_PID="$PID_PATH/unicorn.pid"
+RESQUE_PID="$PID_PATH/resque_worker.pid"
 
 check_pid(){
-  if [ -f $UNICORN_PID_PATH ]; then
-    PID=`cat $UNICORN_PID_PATH`
+  if [ -f $UNICORN_PID ]; then
+    PID=`cat $UNICORN_PID`
     STATUS=`ps aux | grep $PID | grep -v grep | wc -l`
-    echo "PID is: $PID, number of running processes is $STATUS"
   else
     STATUS=0
     PID=0
-    echo "No pid and no processes running."
   fi
 }
 
 start() {
     cd $APP_ROOT
-    #echo "$DESC START" >> $APP_ROOT/log/processes.log
     check_pid
-    echo "check_pid is completed."
     if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
         ## Program is running, exit with error.
         echo "Error! $DESC $NAME is currently running!"
-        # echo "Program is running, exit with error." >> $APP_ROOT/log/processes.log
         exit 1
     else
-      echo "Am I root user or regular user?"
         if [ `whoami` = root ]; then
-          echo "Root user starting unicorn rails"
-          sudo -u gitlab sh -l -c "nohup bundle exec unicorn_rails -c /home/gitlab/gitlab/config/unicorn.rb -E production &"
-          echo "Bundle exec unicorn rails done."
-          echo "Executing resque.sh:"
-          sudo -u gitlab sh -l -c "mkdir -p /home/gitlab/gitlab/tmp/pids && nohup bundle exec rake environment resque:work QUEUE=post_receive,mailer,system_hook RAILS_ENV=production PIDFILE=/home/gitlab/gitlab/tmp/pids/resque_worker.pid &"
-          echo "Execute resque.sh done."
-          #sleep 20 # Reason for sleep explained in: https://github.com/dosire/gitlab-recipes/issues/6#issuecomment-9527678
-          # echo "$DESC is starting." >> $APP_ROOT/log/processes.log
+          sudo -u gitlab sh -l -c "nohup bundle exec unicorn_rails $DAEMON_OPTS &"
+          sudo -u gitlab sh -l -c "mkdir -p $PID_PATH && nohup bundle exec rake environment resque:work QUEUE=post_receive,mailer,system_hook RAILS_ENV=production PIDFILE=$RESQUE_PID &"
         else
-          echo "Ubuntu user starting unicorn and resque."
-          bundle exec unicorn_rails $DAEMON_OPTS && $APP_ROOT/resque.sh
+          nohup bundle exec unicorn_rails $DAEMON_OPTS && mkdir -p $PID_PATH && nohup bundle exec rake environment resque:work QUEUE=post_receive,mailer,system_hook RAILS_ENV=production PIDFILE=$RESQUE_PID &
         fi
         echo "$DESC started"
     fi
-    # echo "$DESC started." >> $APP_ROOT/log/processes.log
-    exit 0
 }
 
 stop() {
     cd $APP_ROOT
     check_pid
     if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
-      # echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
       ## Program is running, stop it.
-      kill -QUIT `cat $UNICORN_PID_PATH`
+      kill -QUIT `cat $UNICORN_PID`
       kill -QUIT `cat $RESQUE_PID`
-      #rm "$UNICORN_PID_PATH" >> /dev/null
-      rm "$UNICORN_PID_PATH"
-      #rm "$RESQUE_PID" >> /dev/null
-      rm "$RESQUE_PID"
+      rm "$UNICORN_PID" >> /dev/null
+      rm "$RESQUE_PID" >> /dev/null
       echo "$DESC stopped"
     else
-      # echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
       ## Program is not running, exit with error.
       echo "Error! $DESC not started!"
       exit 1
@@ -89,8 +70,6 @@ stop() {
 
 status() {
     cd $APP_ROOT
-    # echo "$DESC status" >> $APP_ROOT/log/processes.log
-    # echo "$(ps aux | grep gitlab | grep unicorn_rails | grep -v grep)" >> $APP_ROOT/log/processes.log
     check_pid
     if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
       echo "$DESC with PID $PID is running."
@@ -110,9 +89,7 @@ fi
 
 case "$1" in
     start)
-        echo "Start is triggered."
         start
-        echo "Start is completed."
         exit 0
     ;;
     stop)
@@ -127,7 +104,6 @@ case "$1" in
     ;;
     status)
         status
-        exit 0
     ;;
     **)
         echo "Usage: $0 {start|stop|reload}"
