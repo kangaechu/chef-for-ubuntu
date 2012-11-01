@@ -17,11 +17,11 @@
 
 APP_ROOT="/home/gitlab/gitlab"
 DAEMON_OPTS="-c $APP_ROOT/config/unicorn.rb -E production"
-NAME="unicorn"
-DESC="Gitlab service"
 PID_PATH="$APP_ROOT/tmp/pids"
 UNICORN_PID="$PID_PATH/unicorn.pid"
 RESQUE_PID="$PID_PATH/resque_worker.pid"
+NAME="unicorn"
+DESC="Gitlab service"
 
 check_pid(){
   if [ -f $UNICORN_PID ]; then
@@ -42,10 +42,8 @@ start() {
         exit 1
     else
         if [ `whoami` = root ]; then
-          sudo -u gitlab sh -l -c "nohup bundle exec unicorn_rails $DAEMON_OPTS &"
-          sudo -u gitlab sh -l -c "mkdir -p $PID_PATH && nohup bundle exec rake environment resque:work QUEUE=post_receive,mailer,system_hook RAILS_ENV=production PIDFILE=$RESQUE_PID &"
-        else
-          nohup bundle exec unicorn_rails $DAEMON_OPTS && mkdir -p $PID_PATH && nohup bundle exec rake environment resque:work QUEUE=post_receive,mailer,system_hook RAILS_ENV=production PIDFILE=$RESQUE_PID &
+          sudo -u gitlab sh -l -c "nohup bundle exec unicorn_rails $DAEMON_OPTS  > /dev/null  2>&1 &"
+          sudo -u gitlab sh -l -c "mkdir -p $PID_PATH && nohup bundle exec rake environment resque:work QUEUE=post_receive,mailer,system_hook RAILS_ENV=production PIDFILE=$RESQUE_PID  > /dev/null  2>&1 &"
         fi
         echo "$DESC started"
     fi
