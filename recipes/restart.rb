@@ -3,6 +3,6 @@ service "nginx" do
 end
 
 service "gitlab restart" do
-  service_name "gitlab"
-  action :restart
+  provider Chef::Provider::Service::Init::Debian
+  notifies :restart, resources(:service => "gitlab")
 end
