@@ -2,6 +2,7 @@ service "nginx" do
   action :restart
 end
 
-service "gitlab" do
+service "start gitlab" do
+  service_name "gitlab"
   action :start
 end
