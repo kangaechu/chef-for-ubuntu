@@ -3,5 +3,5 @@ service "nginx" do
 end
 
 service "gitlab" do
-  action :restart
+  action :start
 end
