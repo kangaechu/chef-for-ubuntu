@@ -118,7 +118,7 @@ end
 
 service "gitlab start" do
   provider Chef::Provider::Service::Init::Debian
-  action :start
+  notifies :start, "service[gitlab]", :immediately
 end
 
 execute "go to gitlab directory by default on next login" do
