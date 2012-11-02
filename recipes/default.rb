@@ -108,7 +108,6 @@ template "/etc/init.d/gitlab" do
   owner "root"
   group "root"
   notifies :enable, "service[gitlab]", :immediately
-  notifies :start, "service[gitlab]", :immediately
 end
 
 service "gitlab" do
