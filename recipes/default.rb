@@ -60,6 +60,13 @@ cookbook_file "/home/gitlab/gitlab/app/assets/images/logo_white.png" do
   group "gitlab"
 end
 
+cookbook_file "/home/gitlab/gitlab/app/assets/images/login-logo.png" do
+  source "login-logo.png"
+  mode 0664
+  owner "gitlab"
+  group "gitlab"
+end
+
 directory "/home/gitlab/gitlab/tmp" do
   owner "gitlab"
   group "gitlab"
