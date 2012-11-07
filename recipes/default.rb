@@ -82,7 +82,8 @@ template "/home/gitlab/gitlab/config/gitlab.yml" do
     :fqdn => data_bag_item('services', 'gitlab')['fqdn'],
     :https_boolean => ('on' == data_bag_item('services', 'gitlab')['ssl']['status']),
     :git_user => node['gitlab']['git_user'], # Default: git
-    :git_home => node['gitlab']['git_home'] # Default: /home/git
+    :git_home => node['gitlab']['git_home'], # Default: /home/git
+    :signup_enabled_boolean => true # Default: false
   )
 end
 
