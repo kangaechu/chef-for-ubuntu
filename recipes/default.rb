@@ -87,6 +87,17 @@ template "/home/gitlab/gitlab/config/gitlab.yml" do
   )
 end
 
+template "/home/gitlab/gitlab/config/aws.yml" do
+  owner 'gitlab' # owner node['gitlab']['user']
+  group 'gitlab' # node['gitlab']['group']
+  mode 0644
+  variables(
+    :access_key => data_bag_item("services", "gitlab")["aws"]['access_key_id'],
+    :secret_access_key => data_bag_item("services", "gitlab")["aws"]['secret_access_key'],
+    :bucket => data_bag_item("services", "gitlab")["aws"]['bucket']
+  )
+end
+
 execute "install gems" do
   cwd "/home/gitlab/gitlab"
   command "bundle install --without development test postgres --deployment"
