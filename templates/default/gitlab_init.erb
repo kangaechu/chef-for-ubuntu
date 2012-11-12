@@ -1,9 +1,8 @@
-#!/bin/bash
+#! /bin/bash
 
 # GITLAB
 # Maintainer: @randx
-# App Version: 3.0.3
-# Init script edited by: @maxlazio
+# App Version: 2.9
 
 ### BEGIN INIT INFO
 # Provides:          gitlab
@@ -14,6 +13,7 @@
 # Short-Description: GitLab git repository management
 # Description:       GitLab git repository management
 ### END INIT INFO
+
 
 APP_ROOT="/home/gitlab/gitlab"
 DAEMON_OPTS="-c $APP_ROOT/config/unicorn.rb -E production"
@@ -85,7 +85,6 @@ status() {
   check_pid
   if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
     echo "$DESC with PID $PID is running."
-    exit 0
   else
     echo "$DESC is not running."
     exit 1
@@ -101,28 +100,26 @@ fi
 
 case "$1" in
   start)
-    start
-    exit 0
-  ;;
+        start
+        ;;
   stop)
-    stop
-    exit 0
-  ;;
+        stop
+        ;;
   restart)
-    restart
-    exit 0
-  ;;
+        restart
+        ;;
   reload|force-reload)
-    echo -n "Reloading $DESC configuration: "
-    kill -HUP `cat $PID`
-    echo "$NAME."
-    exit 0
-  ;;
+        echo -n "Reloading $DESC configuration: "
+        kill -HUP `cat $PID`
+        echo "$NAME."
+        ;;
   status)
-    status
-  ;;
-  **)
-    echo "Usage: $NAME {start|stop|restart|reload|status}" >&2
-    exit 1
-  ;;
+        status
+        ;;
+  *)
+        echo "Usage: $NAME {start|stop|restart|reload}" >&2
+        exit 1
+        ;;
 esac
+
+exit 0
