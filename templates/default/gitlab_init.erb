@@ -71,8 +71,9 @@ restart() {
   check_pid
   if [ "$PID" -ne 0 -a "$STATUS" -ne 0 ]; then
     echo -n "Restarting $DESC: "
-    kill -USR2 `cat $UNICORN_PID`
     kill -USR2 `cat $RESQUE_PID`
+    kill -USR2 `cat $UNICORN_PID`
+    kill -CONT `cat $RESQUE_PID`
     echo "$NAME."
   else
     echo "Error, $NAME not running!"
