@@ -94,7 +94,7 @@ template "/home/gitlab/gitlab/config/aws.yml" do
   variables(
     :access_key => data_bag_item("services", "gitlab")["aws"]['access_key_id'],
     :secret_access_key => data_bag_item("services", "gitlab")["aws"]['secret_access_key'],
-    :bucket => data_bag_item("services", "gitlab")["aws"]['bucket']
+    :bucket => data_bag_item("services", "gitlab")["aws"]['bucket'],
     :region => data_bag_item("services", "gitlab")["aws"]['region']
   )
 end
