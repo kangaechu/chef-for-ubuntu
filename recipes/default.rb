@@ -143,6 +143,11 @@ template "/home/gitlab/gitlab/config/database.yml" do
   )
 end
 
+execute "enable automerge" do
+  cwd "/home/gitlab/gitlab"
+  command "sudo -u gitlab -H bundle exec rake gitlab:app:enable_automerge RAILS_ENV=production"
+end
+
 template "/etc/init.d/gitlab" do
   source "gitlab_init.erb"
   mode 0755
