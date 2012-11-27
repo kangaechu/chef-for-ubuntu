@@ -143,6 +143,14 @@ template "/home/gitlab/gitlab/config/database.yml" do
   )
 end
 
+execute "disable strict hostkey checking" do
+  user "gitlab"
+  group "gitlab"
+  cwd "/home/gitlab"
+  command "mkdir -p .ssh && echo 'StrictHostKeyChecking no' >> /home/gitlab/.ssh/config"
+  not_if { File.exists?("/home/gitlab/.ssh/config") }
+end
+
 execute "enable automerge" do
   cwd "/home/gitlab/gitlab"
   command "sudo -u gitlab -H bundle exec rake gitlab:app:enable_automerge RAILS_ENV=production"

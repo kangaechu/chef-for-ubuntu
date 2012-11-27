@@ -69,14 +69,6 @@ execute "test by cloning a repo" do
   command "git clone git@localhost:gitolite-admin.git /tmp/gitolite-admin"
 end
 
-execute "disable strict hostkey checking" do
-  user "git"
-  group "git"
-  cwd "/home/git"
-  command "mkdir -p .ssh && echo 'StrictHostKeyChecking no' >> /home/git/.ssh/config"
-  not_if { File.exists?("/home/git/.ssh/config") }
-end
-
 directory "/tmp/gitolite-admin" do
   recursive true
   action :delete
