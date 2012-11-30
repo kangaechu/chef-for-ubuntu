@@ -107,7 +107,7 @@ execute "install gems" do
 end
 
 execute "setup gitlab hooks" do
- command "cp ./lib/hooks/post-receive /home/git/.gitolite/hooks/common/post-receive"
+ command "cp /home/gitlab/gitlab/lib/hooks/post-receive /home/git/.gitolite/hooks/common/post-receive"
 end
 
 execute "make git the owner of the hooks" do
