@@ -27,7 +27,7 @@ end
 
 git '/home/gitlab/gitlab' do
   repository 'git://github.com/dosire/gitlabhq.git'
-  reference 'gitlabdotcom'
+  reference 'upgrade_to_3_1_0'
   action :checkout
   user 'gitlab'
   group 'gitlab'
