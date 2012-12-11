@@ -28,7 +28,7 @@ end
 git '/home/gitlab/gitlab' do
   repository 'git://github.com/dosire/gitlabhq.git'
   reference node['gitlab']['gitlab_dot_com_branch']
-  action :checkout
+  action :sync
   user 'gitlab'
   group 'gitlab'
 end
