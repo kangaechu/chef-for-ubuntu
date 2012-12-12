@@ -27,8 +27,7 @@ end
 
 git '/home/gitlab/gitlab' do
   repository 'git://github.com/dosire/gitlabhq.git'
-  reference 'upgrade_to_3_1_0'
-  #reference node['gitlab']['gitlab_dot_com_branch']
+  reference node['gitlab']['gitlab_dot_com_branch']
   action :sync
   user 'gitlab'
   group 'gitlab'
