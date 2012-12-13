@@ -150,6 +150,9 @@ execute "go to gitlab directory by default on next login" do
 not_if "grep /home/gitlab/gitlab /home/ubuntu/.bashrc"
 end
 
+execute "Replace GA tracking gode" do
+  command "sudo sed -i 's/UA-XXX/#{data_bag_item('services', 'gitlab')['ga_tracking_code']}/' /home/gitlab/gitlab/app/views/layouts/_head.html.haml"
+end
 # # Include cookbook dependencies
 # %w{ ruby_build gitlab::gitolite build-essential
 #     readline sudo openssh xml zlib python::package python::pip
