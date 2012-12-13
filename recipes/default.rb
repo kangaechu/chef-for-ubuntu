@@ -39,34 +39,6 @@ execute "change site template for staging" do
   only_if { 'gitlab.info' == data_bag_item('services', 'gitlab')['fqdn'] }
 end
 
-cookbook_file "/home/gitlab/gitlab/app/assets/images/logo_basic.png" do
-  source "logo.png"
-  mode 0664
-  owner "gitlab"
-  group "gitlab"
-end
-
-cookbook_file "/home/gitlab/gitlab/app/assets/images/logo_dark.png" do
-  source "logo.png"
-  mode 0664
-  owner "gitlab"
-  group "gitlab"
-end
-
-cookbook_file "/home/gitlab/gitlab/app/assets/images/logo_white.png" do
-  source "logo.png"
-  mode 0664
-  owner "gitlab"
-  group "gitlab"
-end
-
-cookbook_file "/home/gitlab/gitlab/app/assets/images/login-logo.png" do
-  source "login-logo.png"
-  mode 0664
-  owner "gitlab"
-  group "gitlab"
-end
-
 directory "/home/gitlab/gitlab/tmp" do
   owner "gitlab"
   group "gitlab"
