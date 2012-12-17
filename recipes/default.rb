@@ -134,7 +134,7 @@ end
 
 bash "get the latest gitlab init script" do
   cwd "/etc/init.d/"
-  owner "root"
+  user "root"
   group "root"
   code <<-EOH
     wget https://raw.github.com/gitlabhq/gitlab-recipes/master/init.d/gitlab
