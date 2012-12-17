@@ -137,6 +137,7 @@ bash "get the latest gitlab init script" do
   user "root"
   group "root"
   code <<-EOH
+    rm gitlab
     wget https://raw.github.com/gitlabhq/gitlab-recipes/master/init.d/gitlab
     chown root:root gitlab
     chmod 755 gitlab
