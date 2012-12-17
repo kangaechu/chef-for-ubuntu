@@ -132,7 +132,7 @@ execute "enable automerge" do
   command "sudo -u gitlab -H bundle exec rake gitlab:app:enable_automerge RAILS_ENV=production"
 end
 
-bash "get the latest gitlab init script"
+bash "get the latest gitlab init script" do
   cwd "/etc/init.d/"
   owner "root"
   group "root"
