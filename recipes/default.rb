@@ -90,10 +90,6 @@ execute "make git the owner of the hooks" do
   command "chown git:git /home/git/.gitolite/hooks/common/post-receive"
 end
 
-execute "rewrite hooks in all projects to symlink gitolite hook" do
-  command "sudo -u git -H /home/gitlab/gitlab/lib/support/rewrite-hooks.sh"
-end
-
 execute "tighten gitolite permissions" do
   user "git"
   group "git"
