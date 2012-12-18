@@ -127,11 +127,6 @@ execute "disable strict hostkey checking" do
   not_if { File.exists?("/home/gitlab/.ssh/config") }
 end
 
-execute "enable automerge" do
-  cwd "/home/gitlab/gitlab"
-  command "sudo -u gitlab -H bundle exec rake gitlab:app:enable_automerge RAILS_ENV=production"
-end
-
 bash "get the latest gitlab init script" do
   cwd "/etc/init.d/"
   user "root"
