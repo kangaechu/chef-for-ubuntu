@@ -78,10 +78,6 @@ execute "install gems" do
   group "gitlab"
 end
 
-link "/home/gitlab/gitlab/public/uploads" do
-  to "/mnt/ebs/uploads"
-end
-
 execute "setup gitlab hooks" do
  command "cp /home/gitlab/gitlab/lib/hooks/post-receive /home/git/.gitolite/hooks/common/post-receive"
 end
