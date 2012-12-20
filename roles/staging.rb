@@ -5,7 +5,7 @@ run_list(
   "recipe[gitlab::setup_db]",
   "recipe[gitlab::start]",
   "recipe[gitlab::attach_eip]",
-  "recipe[gitlab::gitlabdotcom_operations]",
+  "recipe[gitlab::gitolite_operations]",
   "recipe[gitlab::restart]"
 )
 default_attributes({
