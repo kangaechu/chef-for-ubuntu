@@ -17,6 +17,7 @@ run_list(
   "recipe[gitlab::gitolite]",
   "recipe[gitlab]",
   "recipe[gitlab::gitolite_operations]",
+  "recipe[gitlab::gitolite_test]",
   "recipe[gitlab::nginx]",
   "recipe[gitlab::email]",
   "recipe[gitlab::migrate_db]",

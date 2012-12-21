@@ -62,18 +62,6 @@ link "/home/git/.gitolite" do
   to "/mnt/ebs/dotgitolite"
 end
 
-execute "test by cloning a repo" do
-  user "gitlab"
-  group "git"
-  cwd "/home/git"
-  command "git clone git@localhost:gitolite-admin.git /tmp/gitolite-admin"
-end
-
-directory "/tmp/gitolite-admin" do
-  recursive true
-  action :delete
-end
-
 #
 # Cookbook Name:: gitolite
 # Recipe:: default
