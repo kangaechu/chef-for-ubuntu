@@ -4,8 +4,6 @@ run_list(
   "role[gitlab]",
   #"recipe[gitlab::setup_db]",
   #"recipe[gitlab::attach_eip]",
-  "recipe[gitlab::migrate_db]",
-  "recipe[gitlab::start]",
   "recipe[gitlab::restart]"
 )
 default_attributes({
