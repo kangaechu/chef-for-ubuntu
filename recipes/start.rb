@@ -1,3 +1,3 @@
 service "gitlab" do
-  action :start
+  action :start, :immediately
 end
