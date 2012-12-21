@@ -27,8 +27,8 @@ default['gitlab']['app_home'] = "#{node['gitlab']['home']}/gitlab"
 default['gitlab']['gitlab_url'] = "git://github.com/gitlabhq/gitlabhq.git"
 default['gitlab']['gitlab_branch'] = "master"
 
-# Set default branch for staging
-default['gitlab']['staging_branch'] = "gitlabdotcom"
+# Set default branch
+default['gitlab']['branch'] = "gitlabdotcom"
 
 # Required packages for Gitlab
 case node['platform']

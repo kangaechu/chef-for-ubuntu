@@ -27,7 +27,7 @@ end
 
 git '/home/gitlab/gitlab' do
   repository 'git://github.com/dosire/gitlabhq.git'
-  reference node['gitlab']['staging_branch']
+  reference node['gitlab']['branch']
   action :sync
   user 'gitlab'
   group 'gitlab'
