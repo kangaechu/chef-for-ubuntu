@@ -4,8 +4,7 @@ run_list(
   "role[gitlab]",
   "recipe[gitlab::setup_db]",
   "recipe[gitlab::start]",
-  "recipe[gitlab::attach_eip]",
-  "recipe[gitlab::restart]"
+  "recipe[gitlab::attach_eip]"
 )
 default_attributes({
   # All in databag
