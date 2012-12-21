@@ -1,16 +1,8 @@
-execute "delete db" do
-  user "gitlab"
-  group "gitlab"
-  cwd "/home/gitlab/gitlab"
-  command "bundle exec rake db:drop RAILS_ENV=production"
-  not_if { node.attribute?("db_setup") }
-end
-
 execute "create db and load schema" do
   user "gitlab"
   group "gitlab"
   cwd "/home/gitlab/gitlab"
-  command "bundle exec rake db:setup RAILS_ENV=production"
+  command "bundle exec rake db:reset RAILS_ENV=production"
   not_if { node.attribute?("db_setup") }
 end
 
