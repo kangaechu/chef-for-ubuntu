@@ -28,7 +28,7 @@ template "/etc/nginx/sites-available/gitlab" do
   group "root"
   variables(
     :fqdn => fqdn,
-    :ssl => ssl_data_bag,
+    :ssl => ssl_data_bag
   )
 end
 
