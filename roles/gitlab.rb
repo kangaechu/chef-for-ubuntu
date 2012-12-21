@@ -16,9 +16,10 @@ run_list(
   "recipe[gitlab::setup_ebs]", # always setup, can trow away on swap
   "recipe[gitlab::gitolite]",
   "recipe[gitlab]",
+  "recipe[gitlab::gitolite_operations]",
   "recipe[gitlab::nginx]",
   "recipe[gitlab::email]"
-) # recipe[gitlab::setup_db] and recipe[gitlab::attach_eip] are in server.rb
+)
 default_attributes({
   # All in databag
 })
