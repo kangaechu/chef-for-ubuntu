@@ -13,6 +13,11 @@ gem_package "remote_syslog" do
   action :install
 end
 
+# Temporary fix until https://github.com/dosire/cookbook-gitlab/issues/61#issuecomment-11656798 is resolved
+execute "Temp fix for moneta version problem"
+  command "gem install moneta -v '~> 0.6.0' && gem uninstall moneta -v '>= 0.7.0'"
+end
+
 template "/etc/log_files.yml" do
   source "log_files.yml.erb"
   mode 0644
