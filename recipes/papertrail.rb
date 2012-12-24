@@ -14,7 +14,7 @@ gem_package "remote_syslog" do
 end
 
 # Temporary fix until https://github.com/dosire/cookbook-gitlab/issues/61#issuecomment-11656798 is resolved
-execute "Temp fix for moneta version problem"
+execute "Temp fix for moneta version problem" do
   command "gem install moneta -v '~> 0.6.0' && gem uninstall moneta -v '>= 0.7.0'"
 end
 
