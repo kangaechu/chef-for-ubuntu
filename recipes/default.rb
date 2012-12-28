@@ -105,6 +105,10 @@ execute "configure Unicorn" do
 not_if {File.exists?("/home/gitlab/gitlab/config/unicorn.rb")}
 end
 
+execute "increase the timeout for unicorn workers" do
+  command "sudo sed -i 's/timeout 30/timeout 60/' /home/gitlab/gitlab/config/unicorn.rb"
+end
+
 template "/home/gitlab/gitlab/config/database.yml" do
   source "database.yml.erb"
   mode 0644
