@@ -8,5 +8,5 @@ if "Gitlab service is not running." == status
   print(".")
   `sudo service gitlab start`
 else
-  `sude service gitlab restart`
+  `sudo service gitlab restart`
 end
