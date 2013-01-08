@@ -3,6 +3,8 @@ service "nginx" do
 end
 
 begin
+  print("Starting gitlab service")
+  pring(".")
   status = `service gitlab status`
   service "gitlab" do
     action :start
