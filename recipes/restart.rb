@@ -2,6 +2,11 @@ service "nginx" do
   action :restart
 end
 
-service "gitlab" do
-  action :restart
+status = `sudo service gitlab status`
+if "Gitlab service is not running." == status
+  print("Starting gitlab service")
+  print(".")
+  `sudo service gitlab start`
+else
+  `sude service gitlab restart`
 end
