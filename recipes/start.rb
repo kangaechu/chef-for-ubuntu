@@ -4,7 +4,7 @@ end
 
 begin
   print("Starting gitlab service")
-  pring(".")
+  print(".")
   status = `service gitlab status`
   service "gitlab" do
     action :start
