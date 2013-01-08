@@ -21,7 +21,8 @@ run_list(
   "recipe[gitlab::nginx]",
   "recipe[gitlab::email]",
   "recipe[gitlab::migrate_db]",
-  "recipe[gitlab::start]"
+  "recipe[gitlab::start]",
+  "recipe[gitlab::restart]"
 )
 default_attributes({
   # All in databag
