@@ -21,7 +21,7 @@ run_list(
   "recipe[gitlab::nginx]",
   "recipe[gitlab::email]",
   "recipe[gitlab::migrate_db]",
-  "recipe[gitlab::start]",
+  "recipe[gitlab::service_start]",
   "recipe[gitlab::restart]"
 )
 default_attributes({
