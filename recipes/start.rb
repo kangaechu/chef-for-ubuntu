@@ -3,19 +3,10 @@ service "nginx" do
 end
 
 print("Starting gitlab service")
-# bash "start gitlab" do
-#   code <<-EOH
-#     sudo service gitlab start
-#   EOH
-# end
-service "gitlab" do
-  action :start
-end
-
+`sudo service gitlab start`
 begin
   print(".")
-  status = `sudo service gitlab status`
   sleep(5)
-  Chef::Log.info("++++++++ #{status}")
+  status = `sudo service gitlab status`
 end while "Gitlab service is not running." == status
 puts(" done.")
