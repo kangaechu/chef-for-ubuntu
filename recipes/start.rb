@@ -3,10 +3,14 @@ service "nginx" do
 end
 
 print("Starting gitlab service")
-system('sudo service gitlab start')
+bash "start gitlab" do
+  code <<-EOH
+    sudo service gitlab start
+  EOH
+end
 begin
   print(".")
-  sleep(5)
   status = `sudo service gitlab status`
+  sleep(5)
 end while "Gitlab service is not running." == status
 puts(" done.")
