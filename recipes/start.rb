@@ -3,7 +3,10 @@ service "nginx" do
 end
 
 print("Starting gitlab service")
-`sudo service gitlab start`
+service "gitlab" do
+  action :start
+end
+
 begin
   print(".")
   sleep(5)
