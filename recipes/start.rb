@@ -8,8 +8,8 @@ ruby_block "Start gitlab" do
     begin
       print(".")
       sleep(5)
-      status = `sudo service gitlab status`
-    end while "Gitlab service is not running." == status
+      status = `sudo service gitlab start`
+    end until "Error! Gitlab service unicorn is currently running!" == status
     puts(" done.")
   end
   action :create
