@@ -2,14 +2,15 @@ service "nginx" do
   action :start
 end
 
-print("Starting gitlab service")
-service "gitlab" do
-  action :start
+ruby_block "Start gitlab" do
+  block do
+    print("Starting gitlab service")
+    begin
+      print(".")
+      sleep(5)
+      status = `sudo service gitlab status`
+    end while "Gitlab service is not running." == status
+    puts(" done.")
+  end
+  action :nothing
 end
-
-begin
-  print(".")
-  sleep(5)
-  status = `sudo service gitlab status`
-end while "Gitlab service is not running." == status
-puts(" done.")
