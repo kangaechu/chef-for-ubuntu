@@ -12,5 +12,5 @@ ruby_block "Start gitlab" do
     end while "Gitlab service is not running." == status
     puts(" done.")
   end
-  action :nothing
+  action :create
 end
