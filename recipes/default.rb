@@ -40,6 +40,7 @@ execute "change site template for staging" do
 end
 
 directory "/home/gitlab/gitlab/tmp" do
+  recursive true
   action :delete
 end
 
