@@ -40,11 +40,21 @@ execute "change site template for staging" do
 end
 
 directory "/home/gitlab/gitlab/tmp" do
+  recursive true
+  action :delete
+end
+
+link "/home/gitlab/gitlab/tmp" do
+  to "/mnt/ebs/gitlab_tmp"
+end
+
+directory "/home/gitlab/gitlab/tmp" do
   owner "gitlab"
   group "gitlab"
   mode "0755"
   action :create
 end
+
 
 template "/home/gitlab/gitlab/config/gitlab.yml" do
   owner 'gitlab' # owner node['gitlab']['user']
