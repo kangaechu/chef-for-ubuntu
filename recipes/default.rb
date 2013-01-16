@@ -39,6 +39,10 @@ execute "change site template for staging" do
   only_if { 'gitlab.info' == data_bag_item('services', 'gitlab')['fqdn'] }
 end
 
+directory "/home/gitlab/gitlab/tmp" do
+  action :delete
+end
+
 link "/home/gitlab/gitlab/tmp" do
   to "/mnt/ebs/gitlab_tmp"
 end
