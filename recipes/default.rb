@@ -39,17 +39,12 @@ execute "change site template for staging" do
   only_if { 'gitlab.info' == data_bag_item('services', 'gitlab')['fqdn'] }
 end
 
-link "/home/gitlab/gitlab/tmp" do
-  to "/mnt/ebs/gitlab_tmp"
-end
-
 directory "/home/gitlab/gitlab/tmp" do
   owner "gitlab"
   group "gitlab"
   mode "0755"
   action :create
 end
-
 
 template "/home/gitlab/gitlab/config/gitlab.yml" do
   owner 'gitlab' # owner node['gitlab']['user']

@@ -25,15 +25,6 @@ directory "/mnt/ebs/dotssh" do
   recursive true
 end
 
-# gitlab tmp dir
-directory "/mnt/ebs/gitlab_tmp" do
-  mode "0755"
-  owner "gitlab"
-  group "gitlab"
-  action :create
-  recursive true
-end
-
 # repositories symlink (need to do before gitolite setup)
 link "/home/git/repositories" do
   to "/mnt/ebs/repositories"
@@ -44,7 +35,7 @@ link "/mnt/ebs/.gitolite.rc" do
   to "/home/git/.gitolite.rc"
 end
 
-# tmp symlink are later (in the script), first need to clone gitlab repo
+# uploads symlink are later (in the script), first need to clone gitlab repo
 
 # dotssh symlink
 link "/home/gitlab/.ssh" do
