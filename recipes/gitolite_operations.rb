@@ -3,7 +3,6 @@ execute "gitolite setup" do
 end
 
 execute "enable namespaces" do
-  cwd "/home/gitlab/gitlab"
   command "sudo -u gitlab -H bundle exec rake gitlab:enable_namespaces RAILS_ENV=production"
 end
 
