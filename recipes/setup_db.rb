@@ -23,7 +23,7 @@ ruby_block "db_setup" do
   action :nothing
 end
 
-execute "check gitlab status" do
+execute "run status" do
   cwd "/home/gitlab/gitlab"
-  command "sudo -u gitlab -H bundle exec rake gitlab:check RAILS_ENV=production"
+  command "sudo -u gitlab -H bundle exec rake gitlab:app:status RAILS_ENV=production"
 end

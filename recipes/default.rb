@@ -143,7 +143,7 @@ bash "get the latest gitlab init script" do
   group "root"
   code <<-EOH
     rm gitlab
-    wget https://raw.github.com/gitlabhq/gitlab-recipes/4-1-stable/init.d/gitlab
+    wget https://raw.github.com/dosire/gitlab-recipes/master/init.d/gitlab
     chown root:root gitlab
     chmod 755 gitlab
   EOH
