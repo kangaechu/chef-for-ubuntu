@@ -16,10 +16,10 @@ run_list(
   "recipe[gitlab::setup_ebs]", # always setup, can trow away on swap
   "recipe[gitlab::gitolite]",
   "recipe[gitlab]",
-  "recipe[gitlab::migrate_db]",
+  "recipe[gitlab::migrate_db]", # gitolite_operations could depend on the up-to-date database
+  "recipe[gitlab::nginx]", # complete the nginx setup as soon as possible so we can render pages
   "recipe[gitlab::gitolite_operations]",
   "recipe[gitlab::gitolite_test]",
-  "recipe[gitlab::nginx]",
   "recipe[gitlab::email]",
   "recipe[gitlab::start]",
   "recipe[gitlab::restart]"
