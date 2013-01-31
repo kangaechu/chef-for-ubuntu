@@ -1,6 +1,6 @@
 # repositories dir (git user needs to exist)
 directory "/mnt/ebs/repositories" do
-  mode "0770"
+  mode "6770"
   owner "git"
   group "git"
   action :create
