@@ -99,7 +99,7 @@ omniauth:
 # GitLab Satellites
 satellites:
   # Relative paths are relative to Rails.root (default: tmp/repo_satellites/)
-  path: tmp/repo_satellites/
+  path: /mnt/ebs/gitlab_tmp/repo_satellites/
 
 ## Backup settings
 backup:
@@ -110,8 +110,8 @@ backup:
 gitolite:
   admin_uri: git@localhost:gitolite-admin
   # repos_path must not be a symlink
-  repos_path: /home/git/repositories
-  hooks_path: /home/git/.gitolite/hooks/
+  repos_path: /mnt/ebs/repositories
+  hooks_path: /mnt/ebs/dotgitolite/hooks/
   admin_key: gitlab
   upload_pack: true
   receive_pack: true
