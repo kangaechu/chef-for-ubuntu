@@ -62,6 +62,10 @@ link "/home/git/.gitolite" do
   to "/mnt/ebs/dotgitolite"
 end
 
+execute "Set the right permissions for dotgitolite" do
+ command "sudo chmod 750 /home/git/.gitolite/"
+end
+
 #
 # Cookbook Name:: gitolite
 # Recipe:: default
