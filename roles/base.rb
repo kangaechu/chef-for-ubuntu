@@ -1,8 +1,7 @@
 name "base"
 description ""
 run_list(
-  "recipe[common]",
-  "recipe[selinux]"
+  "recipe[common]"
 )
 
 default_attributes({
