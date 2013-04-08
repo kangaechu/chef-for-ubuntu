@@ -1,3 +1,15 @@
 [submodule "cookbooks/iptables"]
 	path = cookbooks/iptables
 	url = https://github.com/kangaechu/iptables.git
+[submodule "cookbooks/mysql"]
+	path = cookbooks/mysql
+	url = https://github.com/kangaechu/mysql.git
+[submodule "cookbooks/apache2"]
+	path = cookbooks/apache2
+	url = https://github.com/kangaechu/apache2.git
+[submodule "cookbooks/php"]
+	path = cookbooks/php
+	url = https://github.com/kangaechu/php.git
+[submodule "cookbooks/wordpress"]
+	path = cookbooks/wordpress
+	url = https://github.com/kangaechu/wordpress.git

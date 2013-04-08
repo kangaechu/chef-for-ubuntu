@@ -6,6 +6,8 @@ run_list(
   "recipe[ssh]",
   "recipe[apache2]",
   "recipe[mysql]",
+  "recipe[php]",
+  "recipe[wordpress]",
   "recipe[virtualbox]"
 )
 
