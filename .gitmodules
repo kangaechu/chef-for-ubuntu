@@ -22,3 +22,6 @@
 [submodule "cookbooks/xml"]
 	path = cookbooks/xml
 	url = https://github.com/opscode-cookbooks/xml.git
+[submodule "cookbooks/redmine"]
+	path = cookbooks/redmine
+	url = https://github.com/kangaechu/redmine.git
