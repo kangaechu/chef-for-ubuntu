@@ -13,3 +13,6 @@
 [submodule "cookbooks/wordpress"]
 	path = cookbooks/wordpress
 	url = https://github.com/kangaechu/wordpress.git
+[submodule "cookbooks/build-essential"]
+	path = cookbooks/build-essential
+	url = https://github.com/opscode-cookbooks/build-essential.git
