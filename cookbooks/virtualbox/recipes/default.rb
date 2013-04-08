@@ -15,7 +15,7 @@
 # limitations under the License.
 #
 
-%w{gcc make kernel-devel}.each do |package_name|
+%w{gcc make linux-headers-generic}.each do |package_name|
   package package_name do
     action :install
   end
