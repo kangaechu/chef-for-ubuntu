@@ -4,7 +4,7 @@ run_list(
   "role[base]",
   "recipe[iptables]",
   "recipe[ssh]",
-  "recipe[httpd]",
+  "recipe[apache2]",
   "recipe[mysql]",
   "recipe[virtualbox]"
 )
