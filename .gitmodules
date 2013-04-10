@@ -25,3 +25,18 @@
 [submodule "cookbooks/redmine"]
 	path = cookbooks/redmine
 	url = https://github.com/kangaechu/redmine.git
+[submodule "cookbooks/application"]
+	path = cookbooks/application
+	url = https://github.com/opscode-cookbooks/application.git
+[submodule "cookbooks/passenger_apache2"]
+	path = cookbooks/passenger_apache2
+	url = https://github.com/opscode-cookbooks/passenger_apache2.git
+[submodule "cookbooks/sqlite"]
+	path = cookbooks/sqlite
+	url = https://github.com/opscode-cookbooks/sqlite.git
+[submodule "cookbooks/rake"]
+	path = cookbooks/rake
+	url = https://github.com/erniebrodeur/chef-recipe-rake.git
+[submodule "cookbooks/ruby"]
+	path = cookbooks/ruby
+	url = https://github.com/kangaechu/ruby-cookbook.git

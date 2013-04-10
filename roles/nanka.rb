@@ -9,6 +9,11 @@ run_list(
   "recipe[mysql]",
   "recipe[php]",
   "recipe[wordpress]",
+  "recipe[application]",
+  "recipe[ruby]",
+  "recipe[rake]",
+  "recipe[passenger_apache2]",
+  "recipe[redmine]",
   "recipe[virtualbox]"
 )
 
