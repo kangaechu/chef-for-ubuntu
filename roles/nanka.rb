@@ -6,6 +6,7 @@ run_list(
   "recipe[iptables]",
   "recipe[ssh]",
   "recipe[apache2]",
+  "recipe[apache2::iptables]",
   "recipe[mysql]",
   "recipe[php]",
   "recipe[wordpress]",
@@ -14,7 +15,8 @@ run_list(
   "recipe[rake]",
   "recipe[passenger_apache2]",
   "recipe[redmine]",
-  "recipe[virtualbox]"
+  "recipe[virtualbox]",
+  "recipe[gitlab]"
 )
 
 default_attributes({
@@ -23,8 +25,16 @@ default_attributes({
 
 override_attributes({
   :mysql => {
-  	:server_debian_password => "test",
-  	:server_root_password => "test",
-  	:server_repl_password => "test"
+    :server_debian_password => "test",
+    :server_root_password => "test",
+    :server_repl_password => "test"
+  },
+  :passenger => {
+    :manage_module_conf => false,
+    :install_method => "package",
+    :package => {
+      :name => "libapache2-mod-passenger",
+      :version => nil
+    }
   }
 })
