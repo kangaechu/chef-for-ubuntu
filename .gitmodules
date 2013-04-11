@@ -40,3 +40,42 @@
 [submodule "cookbooks/ruby"]
 	path = cookbooks/ruby
 	url = https://github.com/kangaechu/ruby-cookbook.git
+[submodule "cookbooks/gitlab"]
+	path = cookbooks/gitlab
+	url = https://github.com/kangaechu/cookbook-gitlab.git
+[submodule "cookbooks/gitolite"]
+	path = cookbooks/gitolite
+	url = https://github.com/kangaechu/cookbook-gitolite.git
+[submodule "cookbooks/database"]
+	path = cookbooks/database
+	url = https://github.com/opscode-cookbooks/database.git
+[submodule "cookbooks/git"]
+	path = cookbooks/git
+	url = https://github.com/opscode-cookbooks/git.git
+[submodule "cookbooks/openssh"]
+	path = cookbooks/openssh
+	url = https://github.com/opscode-cookbooks/openssh.git
+[submodule "cookbooks/perl"]
+	path = cookbooks/perl
+	url = https://github.com/opscode-cookbooks/perl.git
+[submodule "cookbooks/python"]
+	path = cookbooks/python
+	url = https://github.com/opscode-cookbooks/python
+[submodule "cookbooks/readline"]
+	path = cookbooks/readline
+	url = https://github.com/atomic-penguin/cookbook-readline.git
+[submodule "cookbooks/redisio"]
+	path = cookbooks/redisio
+	url = https://github.com/brianbianco/redisio/
+[submodule "cookbooks/ulimit"]
+	path = cookbooks/ulimit
+	url = https://github.com/bmhatfield/chef-ulimit.git
+[submodule "cookbooks/ruby_build"]
+	path = cookbooks/ruby_build
+	url = https://github.com/fnichol/chef-ruby_build.git
+[submodule "cookbooks/sudo"]
+	path = cookbooks/sudo
+	url = https://github.com/opscode-cookbooks/sudo.git
+[submodule "cookbooks/zlib"]
+	path = cookbooks/zlib
+	url = https://github.com/opscode-cookbooks/sudo.git
