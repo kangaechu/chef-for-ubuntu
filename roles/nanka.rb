@@ -36,5 +36,8 @@ override_attributes({
       :name => "libapache2-mod-passenger",
       :version => nil
     }
+  },
+  :sudo => {
+    :sudoers_groups => ["sudo"]
   }
 })

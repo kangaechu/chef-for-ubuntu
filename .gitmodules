@@ -40,9 +40,6 @@
 [submodule "cookbooks/ruby"]
 	path = cookbooks/ruby
 	url = https://github.com/kangaechu/ruby-cookbook.git
-[submodule "cookbooks/gitolite"]
-	path = cookbooks/gitolite
-	url = https://github.com/kangaechu/cookbook-gitolite.git
 [submodule "cookbooks/database"]
 	path = cookbooks/database
 	url = https://github.com/opscode-cookbooks/database.git
@@ -76,3 +73,6 @@
 [submodule "cookbooks/zlib"]
 	path = cookbooks/zlib
 	url = https://github.com/opscode-cookbooks/sudo.git
+[submodule "cookbooks/gitlab"]
+	path = cookbooks/gitlab
+	url = https://github.com/kangaechu/cookbook-gitlab.git
