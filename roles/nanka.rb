@@ -4,7 +4,8 @@ run_list(
   "role[base]",
   "recipe[build-essential]",
   "recipe[iptables]",
-  "recipe[ssh]",
+  "recipe[openssh]",
+  "recipe[openssh::iptables]",
   "recipe[apache2]",
   "recipe[apache2::iptables]",
   "recipe[mysql]",
@@ -24,6 +25,13 @@ default_attributes({
 })
 
 override_attributes({
+  :openssh => {
+    :server => {
+      :port => "10022",
+      :password_authentication => "no",
+      :permit_root_login => "no"
+    }
+  },
   :mysql => {
     :server_debian_password => "test",
     :server_root_password => "test",
