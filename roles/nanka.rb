@@ -19,6 +19,11 @@ run_list(
   "recipe[passenger_apache2]",
   "recipe[redmine]",
   "recipe[virtualbox]",
+  "recipe[database::mysql]",
+  "recipe[mysql::server]",
+  "recipe[zabbix]",
+  "recipe[zabbix::database]",
+  "recipe[zabbix::server]",
   "recipe[gitlab]"
 )
 
@@ -52,5 +57,18 @@ override_attributes({
   },
   :wordpress => {
     :server_aliases => ["blog", "www"]
+  },
+  :zabbix => {
+    :agent => {
+      :servers => ["localhost"],
+    },
+    :server => {
+      :install => true,
+      :configure_options => [ "--with-libcurl","--with-net-snmp"],
+    },
+    :web => {
+      :install => true,
+      # :fqdn => "#{node['fqdn']}",
+    }
   }
 })
