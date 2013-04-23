@@ -84,4 +84,4 @@
 	url = https://github.com/edelight/chef-solo-search.git
 [submodule "cookbooks/zabbix"]
 	path = cookbooks/zabbix
-	url = https://github.com/laradji/zabbix.git
+	url = https://github.com/kangaechu/zabbix.git
