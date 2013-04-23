@@ -30,7 +30,7 @@
 	url = https://github.com/opscode-cookbooks/application.git
 [submodule "cookbooks/passenger_apache2"]
 	path = cookbooks/passenger_apache2
-	url = https://github.com/opscode-cookbooks/passenger_apache2.git
+	url = https://github.com/kangaechu/passenger_apache2.git
 [submodule "cookbooks/sqlite"]
 	path = cookbooks/sqlite
 	url = https://github.com/opscode-cookbooks/sqlite.git
@@ -42,19 +42,19 @@
 	url = https://github.com/kangaechu/ruby-cookbook.git
 [submodule "cookbooks/database"]
 	path = cookbooks/database
-	url = https://github.com/opscode-cookbooks/database.git
+	url = https://github.com/kangaechu/database.git
 [submodule "cookbooks/git"]
 	path = cookbooks/git
-	url = https://github.com/opscode-cookbooks/git.git
+	url = https://github.com/kangaechu/git.git
 [submodule "cookbooks/openssh"]
 	path = cookbooks/openssh
-	url = https://github.com/opscode-cookbooks/openssh.git
+	url = https://github.com/kangaechu/openssh.git
 [submodule "cookbooks/perl"]
 	path = cookbooks/perl
 	url = https://github.com/opscode-cookbooks/perl.git
 [submodule "cookbooks/python"]
 	path = cookbooks/python
-	url = https://github.com/opscode-cookbooks/python
+	url = https://github.com/kangaechu/python
 [submodule "cookbooks/readline"]
 	path = cookbooks/readline
 	url = https://github.com/atomic-penguin/cookbook-readline.git
