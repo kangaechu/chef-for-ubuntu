@@ -2,6 +2,8 @@ name "nanka"
 description ""
 run_list(
   "role[base]",
+  "recipe[chef-solo-search]",
+  "recipe[users::sysadmins]",
   "recipe[build-essential]",
   "recipe[iptables]",
   "recipe[openssh]",

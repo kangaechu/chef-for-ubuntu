@@ -76,3 +76,9 @@
 [submodule "cookbooks/gitlab"]
 	path = cookbooks/gitlab
 	url = https://github.com/kangaechu/cookbook-gitlab.git
+[submodule "cookbooks/users"]
+	path = cookbooks/users
+	url = https://github.com/opscode-cookbooks/users.git
+[submodule "cookbooks/chef-solo-search"]
+	path = cookbooks/chef-solo-search
+	url = https://github.com/edelight/chef-solo-search.git
