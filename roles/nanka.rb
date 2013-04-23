@@ -47,5 +47,8 @@ override_attributes({
   },
   :sudo => {
     :sudoers_groups => ["sudo"]
+  },
+  :wordpress => {
+    :server_aliases => ["blog", "www"]
   }
 })
