@@ -2,9 +2,9 @@ name "nanka"
 description ""
 run_list(
   "role[base]",
+  "recipe[build-essential]",
   "recipe[chef-solo-search]",
   "recipe[users::sysadmins]",
-  "recipe[build-essential]",
   "recipe[iptables]",
   "recipe[openssh]",
   "recipe[openssh::iptables]",
@@ -40,9 +40,9 @@ override_attributes({
     }
   },
   :mysql => {
-    :server_debian_password => "test",
-    :server_root_password => "test",
-    :server_repl_password => "test"
+    :server_debian_password => "mysql",
+    :server_root_password => "mysql",
+    :server_repl_password => "mysql"
   },
   :passenger => {
     :manage_module_conf => false,
@@ -56,7 +56,10 @@ override_attributes({
     :sudoers_groups => ["sudo"]
   },
   :wordpress => {
-    :server_aliases => ["blog", "www"]
+    :server_aliases => []
+  },
+  :redmine => {
+    :basedir => "/opt"
   },
   :zabbix => {
     :agent => {
@@ -68,7 +71,16 @@ override_attributes({
     },
     :web => {
       :install => true,
-      # :fqdn => "#{node['fqdn']}",
-    }
-  }
+    },
+    :database => {
+      :dbpassword => "zabbix",
+    },
+  },
+  :gitlab => {
+    :gitlab_shell_branch => "v1.3.0",
+    :gitlab_branch => "5-1-stable",
+    :db => {
+      :password => "gitlabhq_prod"
+    },
+  },
 })
