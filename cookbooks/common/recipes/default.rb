@@ -26,7 +26,7 @@ execute "apt-get upgrade" do
 end
 
 # Package install
-%w{wget vim}.each do |package_name|
+%w{wget vim make}.each do |package_name|
   package package_name do
     action :install
   end
