@@ -31,3 +31,8 @@ end
     action :install
   end
 end
+
+execute "Add Japanese locale" do
+  command "locale-gen ja_JP; locale-gen ja_JP.UTF8"
+  ignore_failure true
+end
