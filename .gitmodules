@@ -85,3 +85,9 @@
 [submodule "cookbooks/zabbix"]
 	path = cookbooks/zabbix
 	url = https://github.com/kangaechu/zabbix.git
+[submodule "cookbooks/openldap"]
+	path = cookbooks/openldap
+	url = https://github.com/opscode-cookbooks/openldap.git
+[submodule "cookbooks/nscd"]
+	path = cookbooks/nscd
+	url = https://github.com/opscode-cookbooks/nscd.git
