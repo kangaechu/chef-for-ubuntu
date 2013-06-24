@@ -15,7 +15,7 @@ Following will build your Ubuntu sever environment in a few steps.
 
     You need to edit like following.
 
-        nanka
+        www.example.com
 
 1. Reboot system to use modified hostname.
 
