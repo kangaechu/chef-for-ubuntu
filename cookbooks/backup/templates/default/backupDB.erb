@@ -1,0 +1,29 @@
+#!/bin/sh
+set -e -x
+
+backup () {
+local DESTDIR="<%= node[:backup][:basedir] %>"
+local GENERATION=5
+local BKUPDATE=`date +%Y%m%d-%H%M%S`
+local DBNAME=$1
+
+mkdir -p ${DESTDIR}
+# Dump Database and Compress
+echo "Backup ${DBNAME} to ${DESTDIR}/${DBNAME}-${BKUPDATE}.tar.bz2"
+mysqldump -u backup -p<%= node[:mysql][:server_backup_password] %> --opt --databases  ${DBNAME} > ${DESTDIR}/${DBNAME}-${BKUPDATE}.sql
+bzip2 ${DESTDIR}/${DBNAME}-${BKUPDATE}.sql
+chmod 600 ${DESTDIR}/${DBNAME}-${BKUPDATE}.sql.bz2
+
+# delete over generation
+for i in `find ${DESTDIR} -name "${DBNAME}-*.tar.bz2" | sort -r | tail -n +${GENERATION}`; do
+	rm -f ${i}
+	echo "Old file ${i} removed."
+done
+}
+
+#backup "Database-name"
+backup "mysql"
+<%= "backup \"" + node[:gitlab][:db][:database] + "\"" if defined?(node[:gitlab][:db][:database]) %>
+<%= "backup \"" + node[:redmine][:db][:dbname] + "\"" if defined?(node[:redmine][:db][:dbname]) %>
+<%= "backup \"" + node[:wordpress][:db][:database] + "\"" if defined?(node[:wordpress][:db][:database]) %>
+<%= "backup \"" + node[:zabbix][:database][:dbname] + "\"" if defined?(node[:zabbix][:database][:dbname]) %>

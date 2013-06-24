@@ -1,0 +1,36 @@
+#!/bin/sh
+set -e -x
+
+backup () {
+local DESTDIR="<%= node[:backup][:basedir] %>"
+local GENERATION=5
+local BKUPDATE=`date +%Y%m%d-%H%M%S`
+local SOURCEDIR=$1
+local DESTFILE=$2
+
+mkdir -p ${DESTDIR}
+# Backup files if files updated in 24 hours
+local ISUPDATETODAY=`find ${SOURCEDIR} -mtime -1 | wc -l`
+local ISBACKUPEXIST=`find ${DESTDIR} -name "${DESTFILE}-*.tar.bz2" | wc -l`
+if [ ${ISUPDATETODAY} -gt 0 -o ${ISBACKUPEXIST} -eq 0 ]; then
+	echo "Backup ${SOURCEDIR} to ${DESTDIR}/${DESTFILE}-${BKUPDATE}.tar.bz2"
+	tar cpf ${DESTDIR}/${DESTFILE}-${BKUPDATE}.tar ${SOURCEDIR}
+	bzip2 ${DESTDIR}/${DESTFILE}-${BKUPDATE}.tar
+	chmod 600 ${DESTDIR}/${DESTFILE}-${BKUPDATE}.tar.bz2
+
+	# delete over generation
+	for i in `find ${DESTDIR} -name "${DESTFILE}-*.tar.bz2" | sort -r | tail -n +${GENERATION}`; do
+		rm -f ${i}
+		echo "Old file ${i} removed."
+	done
+else
+	echo "${SOURCEDIR} unchanged... skip."
+fi
+}
+
+#backup "Soruce Directory" "Backup File Name"
+backup "/etc" "etc"
+backup "/var/log" "log"
+<%= "backup \"/var/www\" \"www\"" if defined?(node[:apache]) %>
+<%= "backup \"/home/git\" \"git\"" if defined?(node[:gitlab][:home]) %>
+<%= "backup \"/opt/redmine/files\" \"redmine\"" if defined?(node[:redmine][:basedir]) %>
