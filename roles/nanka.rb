@@ -4,7 +4,7 @@ run_list(
   "role[base]",
   "recipe[build-essential]",
   "recipe[chef-solo-search]",
-  "recipe[users::sysadmins]",
+  #"recipe[users::sysadmins]",
   "recipe[iptables]",
   "recipe[openssh]",
   "recipe[openssh::iptables]",
@@ -18,13 +18,16 @@ run_list(
   "recipe[rake]",
   "recipe[passenger_apache2]",
   "recipe[redmine]",
-  "recipe[virtualbox]",
+  #"recipe[virtualbox]",
   "recipe[database::mysql]",
   "recipe[mysql::server]",
   "recipe[zabbix]",
   "recipe[zabbix::database]",
   "recipe[zabbix::server]",
-  "recipe[gitlab]"
+  "recipe[gitlab]",
+  "recipe[backup]",
+  "recipe[openldap::master]",
+  "recipe[openldap::client]",
 )
 
 default_attributes({
@@ -42,6 +45,7 @@ override_attributes({
   :mysql => {
     :server_debian_password => "mysql",
     :server_root_password => "mysql",
+    :server_backup_password => "mysql",
     :server_repl_password => "mysql"
   },
   :passenger => {
@@ -56,7 +60,9 @@ override_attributes({
     :sudoers_groups => ["sudo"]
   },
   :wordpress => {
-    :server_aliases => []
+    :server_aliases => [],
+    :repourl => "http://ja.wordpress.org/",
+    :version => "3.5.1-ja",
   },
   :redmine => {
     :basedir => "/opt"
@@ -77,10 +83,22 @@ override_attributes({
     },
   },
   :gitlab => {
-    :gitlab_shell_branch => "v1.3.0",
-    :gitlab_branch => "5-1-stable",
+    :gitlab_shell_branch => "v1.4.0",
+    :gitlab_branch => "5-2-stable",
     :db => {
       :password => "gitlabhq_prod"
     },
+    :ldap => {
+      :enabled => true,
+      :method => "plain",
+      :port => 389,
+      :uid => "mail",
+    },
+  },
+  :backup => {
+    :user => "ubuntu",
+  },
+  :openldap => {
+    :rootpw => "{SSHA}9uZW1EqGwmjmOH44FP5J2KDw2rCDBP0O",
   },
 })
